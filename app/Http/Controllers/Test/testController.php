@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Cache;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use setasign\Fpdi\Fpdi;
 
+use App\Models\Pdfs\Pdfs_actor;
+
 class testController extends Controller
 {
     // test界面
@@ -109,6 +111,20 @@ dd($email);
 		return view('test.cube');
 		
 	}
+
+    // mysql界面
+	public function mysql()
+    {
+
+		$res['data1'] = null;
+		$res['data2'] = null;
+		$res['data3'] = null;
+
+		// $res['data1'] = DB::connection('mysql')->table('users')->find(1);
+		$res['data1'] = Pdfs_actor::find(1);
+
+		return view('test.mysql', $res);
+    }
 
     // pgsql界面
 	public function pgsql()

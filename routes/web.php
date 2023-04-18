@@ -32,6 +32,7 @@ Route::group(['prefix'=>'test', 'namespace'=>'Test', 'middleware'=>[]], function
     Route::get('muse', [testController::class, 'muse']);
     Route::get('vant', [testController::class, 'vant']);
     Route::get('cube', [testController::class, 'cube']);
+    Route::get('mysql', [testController::class, 'mysql']);
     Route::get('pgsql', [testController::class, 'pgsql']);
     Route::get('pdf', [testController::class, 'pdf']);
 
