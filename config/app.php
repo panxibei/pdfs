@@ -195,6 +195,15 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // 自定义
+		Maatwebsite\Excel\ExcelServiceProvider::class,
+		Adldap\Laravel\AdldapServiceProvider::class,
+		Mews\Captcha\CaptchaServiceProvider::class,
+		Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+
+
     ],
 
     /*
@@ -210,6 +219,14 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+
+		// 自定义
+		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+		'Adldap' => Adldap\Laravel\Facades\Adldap::class,
+		'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        'JWTAuth' => Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+
     ])->toArray(),
 
 ];
