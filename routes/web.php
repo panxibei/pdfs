@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Main\MainController;
+use App\Http\Controllers\Home\LoginController;
 use App\Http\Controllers\Test\testController;
 
 /*
@@ -22,24 +24,24 @@ use App\Http\Controllers\Test\testController;
 // home模块
 Route::group(['prefix' => 'login', 'namespace' =>'Home'], function() {
 	Route::get('/', [LoginController::class, 'index'])->name('login');
-	// Route::get('cube', 'LogincubeController@index')->name('logincube');
+	Route::get('cube', 'LogincubeController@index')->name('logincube');
 	Route::post('checklogin', [LoginController::class, 'checklogin'])->name('login.checklogin');
-	// Route::post('checklogincube', 'LogincubeController@checklogin')->name('logincube.checklogin');
+	Route::post('checklogincube', 'LogincubeController@checklogin')->name('logincube.checklogin');
 });
 
 // main模块
 Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth']], function() {
-	Route::any('/', [mainController::class, 'mainPortal']);
-	Route::get('portal', [mainController::class, 'mainPortal'])->name('portal');
-	// Route::get('portalcube', 'mainController@mainPortalcube')->name('portalcube');
-	// Route::get('portalcubeuser', 'mainController@portalcubeUser')->name('portalcubeuser');
-	Route::get('configgets', [mainController::class, 'configGets'])->name('smt.configgets');
+	Route::any('/', [MainController::class, 'mainPortal']);
+	Route::get('portal', [MainController::class, 'mainPortal'])->name('portal');
+	// Route::get('portalcube', 'MainController@mainPortalcube')->name('portalcube');
+	// Route::get('portalcubeuser', 'MainController@portalcubeUser')->name('portalcubeuser');
+	Route::get('configgets', [MainController::class, 'configGets'])->name('smt.configgets');
 
 	// logout
-	Route::get('logout', [mainController::class, 'logout'])->name('main.logout');
+	Route::get('logout', [MainController::class, 'logout'])->name('main.logout');
 
 	// dateofsetup
-	Route::get('dateofsetup', [mainController::class, 'dateofsetup'])->name('dateofsetup');
+	Route::get('dateofsetup', [MainController::class, 'dateofsetup'])->name('dateofsetup');
 });
 
 // Renshi路由
