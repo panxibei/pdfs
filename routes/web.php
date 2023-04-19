@@ -21,6 +21,7 @@ use App\Http\Controllers\Test\testController;
 //     return view('welcome');
 // });
 
+
 // home模块
 Route::group(['prefix' => 'login', 'namespace' =>'Home'], function() {
 	Route::get('/', [LoginController::class, 'index'])->name('login');
@@ -28,6 +29,7 @@ Route::group(['prefix' => 'login', 'namespace' =>'Home'], function() {
 	Route::post('checklogin', [LoginController::class, 'checklogin'])->name('login.checklogin');
 	Route::post('checklogincube', 'LogincubeController@checklogin')->name('logincube.checklogin');
 });
+
 
 // main模块
 Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth']], function() {
@@ -44,93 +46,93 @@ Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth']], fun
 	Route::get('dateofsetup', [MainController::class, 'dateofsetup'])->name('dateofsetup');
 });
 
-// Renshi路由
-// Route::group(['prefix'=>'renshi', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_admin_permission|permission_super_admin']], function() {
-Route::group(['prefix'=>'renshi', 'namespace'=>'Renshi', 'middleware'=>['jwtauth']], function() {
 
-    // 111111111111111
+// Pdfs路由
+// Route::group(['prefix'=>'renshi', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_admin_permission|permission_super_admin']], function() {
+Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']], function() {
+
     // 显示applicant页面
-    Route::get('jiabanApplicant', 'JiabanController@jiabanApplicant')->name('renshi.jiaban.applicant');
+    Route::get('applicant', 'ApplicantController@applicant')->name('pdfs.applicant');
 
     // jiaban gets列表
-    Route::get('jiabanGetsApplicant', 'JiabanController@jiabanGetsApplicant')->name('renshi.jiaban.jiabangetsapplicant');
+    Route::get('jiabanGetsApplicant', 'ApplicantController@jiabanGetsApplicant')->name('renshi.jiaban.jiabangetsapplicant');
 
     // applicant页面 查询employee_uid
-    Route::get('uidList', 'JiabanController@uidList')->name('renshi.jiaban.applicant.uidlist');
+    Route::get('uidList', 'ApplicantController@uidList')->name('renshi.jiaban.applicant.uidlist');
 
     // applicant页面 查询auditing
-    Route::get('auditingList', 'JiabanController@auditingList')->name('renshi.jiaban.applicant.auditinglist');
+    Route::get('auditingList', 'ApplicantController@auditingList')->name('renshi.jiaban.applicant.auditinglist');
 
     // applicant页面 查询employee
-    Route::get('employeeList', 'JiabanController@employeeList')->name('renshi.jiaban.applicant.employeelist');
+    Route::get('employeeList', 'ApplicantController@employeeList')->name('renshi.jiaban.applicant.employeelist');
 
     // applicant页面 批量录入1
-    Route::post('applicantCreate1', 'JiabanController@applicantCreate1')->name('renshi.jiaban.applicant.applicantcreate1');
+    Route::post('applicantCreate1', 'ApplicantController@applicantCreate1')->name('renshi.jiaban.applicant.applicantcreate1');
 
     // applicant页面 批量录入2
-    Route::post('applicantCreate2', 'JiabanController@applicantCreate2')->name('renshi.jiaban.applicant.applicantcreate2');
+    Route::post('applicantCreate2', 'ApplicantController@applicantCreate2')->name('renshi.jiaban.applicant.applicantcreate2');
 
     // applicant页面 软删除
-    Route::post('applicantTrash', 'JiabanController@applicantTrash')->name('renshi.jiaban.applicant.applicanttrash');
+    Route::post('applicantTrash', 'ApplicantController@applicantTrash')->name('renshi.jiaban.applicant.applicanttrash');
 
     // applicant页面 软删除恢复
-    Route::post('applicantRestore', 'JiabanController@applicantRestore')->name('renshi.jiaban.applicant.applicantrestore');
+    Route::post('applicantRestore', 'ApplicantController@applicantRestore')->name('renshi.jiaban.applicant.applicantrestore');
 
     // applicant页面 硬删除
-    Route::post('applicantDelete', 'JiabanController@applicantDelete')->name('renshi.jiaban.applicant.applicantdelete');
+    Route::post('applicantDelete', 'ApplicantController@applicantDelete')->name('renshi.jiaban.applicant.applicantdelete');
 
     // applicant页面 归档
-    Route::post('applicantArchived', 'JiabanController@applicantArchived')->name('renshi.jiaban.applicant.applicantarchived');
+    Route::post('applicantArchived', 'ApplicantController@applicantArchived')->name('renshi.jiaban.applicant.applicantarchived');
 
     // applicant页面 查询department
-    // Route::get('departmentList', 'JiabanController@departmentList')->name('renshi.jiaban.applicant.departmentlist');
+    // Route::get('departmentList', 'ApplicantController@departmentList')->name('renshi.jiaban.applicant.departmentlist');
     
     // 列出当前用户拥有的角色
-    // Route::get('department2Applicant', 'JiabanController@department2Applicant')->name('renshi.jiaban.applicant.department2applicant');
+    // Route::get('department2Applicant', 'ApplicantController@department2Applicant')->name('renshi.jiaban.applicant.department2applicant');
 
     // 列出Tree用户
-    Route::get('loadApplicant', 'JiabanController@loadApplicant')->name('renshi.jiaban.applicant.loadapplicant');
+    Route::get('loadApplicant', 'ApplicantController@loadApplicant')->name('renshi.jiaban.applicant.loadapplicant');
 
     // 列出loadapplicantgroup
-    Route::get('loadApplicantGroup', 'JiabanController@loadApplicantGroup')->name('renshi.jiaban.applicant.loadapplicantgroup');
+    Route::get('loadApplicantGroup', 'ApplicantController@loadApplicantGroup')->name('renshi.jiaban.applicant.loadapplicantgroup');
 
     // loadapplicantgroupdetails
-    Route::get('loadApplicantGroupDetails', 'JiabanController@loadApplicantGroupDetails')->name('renshi.jiaban.applicant.loadapplicantgroupdetails');
+    Route::get('loadApplicantGroupDetails', 'ApplicantController@loadApplicantGroupDetails')->name('renshi.jiaban.applicant.loadapplicantgroupdetails');
 
     // 新增人员组
-    Route::post('createApplicantGroup', 'JiabanController@createApplicantGroup')->name('renshi.jiaban.applicant.createapplicantgroup');
+    Route::post('createApplicantGroup', 'ApplicantController@createApplicantGroup')->name('renshi.jiaban.applicant.createapplicantgroup');
 
     // 删除人员组
-    Route::post('deleteApplicantGroup', 'JiabanController@deleteApplicantGroup')->name('renshi.jiaban.applicant.deleteapplicantgroup');
+    Route::post('deleteApplicantGroup', 'ApplicantController@deleteApplicantGroup')->name('renshi.jiaban.applicant.deleteapplicantgroup');
 
     // 配置变更
-    Route::post('changeConfigs', 'JiabanController@changeConfigs')->name('renshi.jiaban.applicant.changeconfigs');
+    Route::post('changeConfigs', 'ApplicantController@changeConfigs')->name('renshi.jiaban.applicant.changeconfigs');
 
     // 导出列表
-    Route::get('applicantExport', 'JiabanController@applicantExport')->name('renshi.jiaban.applicant.applicantexport');
+    Route::get('applicantExport', 'ApplicantController@applicantExport')->name('renshi.jiaban.applicant.applicantexport');
 
 
     // 22222222222
     // 显示todo页面
-    Route::get('jiabanTodo', 'JiabanController@jiabanTodo')->name('renshi.jiaban.applicant_todo');
+    Route::get('jiabanTodo', 'ApplicantController@jiabanTodo')->name('renshi.jiaban.applicant_todo');
 
     // jiaban gets列表
-    Route::get('jiabanGetsTodo', 'JiabanController@jiabanGetsTodo')->name('renshi.jiaban.jiabangetstodo');
+    Route::get('jiabanGetsTodo', 'ApplicantController@jiabanGetsTodo')->name('renshi.jiaban.jiabangetstodo');
 
     // todo页面 pass
-    Route::post('todoPass', 'JiabanController@todoPass')->name('renshi.jiaban.todo.pass');
+    Route::post('todoPass', 'ApplicantController@todoPass')->name('renshi.jiaban.todo.pass');
 
     // todo页面 deny
-    Route::post('todoDeny', 'JiabanController@todoDeny')->name('renshi.jiaban.todo.deny');
+    Route::post('todoDeny', 'ApplicantController@todoDeny')->name('renshi.jiaban.todo.deny');
 
     // todo页面 软删除
-    Route::post('todoTrash', 'JiabanController@todoTrash')->name('renshi.jiaban.todo.todotrash');
+    Route::post('todoTrash', 'ApplicantController@todoTrash')->name('renshi.jiaban.todo.todotrash');
 
     // todo页面 软删除恢复
-    Route::post('todoRestore', 'JiabanController@todoRestore')->name('renshi.jiaban.todo.todorestore');
+    Route::post('todoRestore', 'ApplicantController@todoRestore')->name('renshi.jiaban.todo.todorestore');
     
     // todo 硬删除
-    Route::post('todoDelete', 'JiabanController@todoDelete')->name('renshi.jiaban.todo.tododelete');
+    Route::post('todoDelete', 'ApplicantController@todoDelete')->name('renshi.jiaban.todo.tododelete');
     
 
     // 333333333
@@ -157,33 +159,33 @@ Route::group(['prefix'=>'renshi', 'namespace'=>'Renshi', 'middleware'=>['jwtauth
 
     // 555555555
     // 显示archived页面
-    Route::get('jiabanArchived', 'JiabanController@jiabanArchived')->name('renshi.jiaban.archived');
+    Route::get('jiabanArchived', 'ApplicantController@jiabanArchived')->name('renshi.jiaban.archived');
 
     // archived gets列表
-    Route::get('jiabanGetsArchived', 'JiabanController@jiabanGetsArchived')->name('renshi.jiaban.jiabangetsarchived');
+    Route::get('jiabanGetsArchived', 'ApplicantController@jiabanGetsArchived')->name('renshi.jiaban.jiabangetsarchived');
 
     // archived页面 软删除
-    Route::post('archivedTrash', 'JiabanController@archivedTrash')->name('renshi.jiaban.archived.archivedtrash');
+    Route::post('archivedTrash', 'ApplicantController@archivedTrash')->name('renshi.jiaban.archived.archivedtrash');
 
     // archived页面 软删除恢复
-    Route::post('archivedRestore', 'JiabanController@archivedRestore')->name('renshi.jiaban.archived.archivedrestore');
+    Route::post('archivedRestore', 'ApplicantController@archivedRestore')->name('renshi.jiaban.archived.archivedrestore');
     
     // archived 硬删除
-    Route::post('archivedDelete', 'JiabanController@archivedDelete')->name('renshi.jiaban.archived.archiveddelete');
+    Route::post('archivedDelete', 'ApplicantController@archivedDelete')->name('renshi.jiaban.archived.archiveddelete');
 
     // 导出列表
-    Route::get('archivedExport', 'JiabanController@archivedExport')->name('renshi.jiaban.archived.archivedexport');
+    Route::get('archivedExport', 'ApplicantController@archivedExport')->name('renshi.jiaban.archived.archivedexport');
 
 
     // 66666666
     // 显示Analytics页面
-    Route::get('jiabanAnalytics', 'JiabanController@jiabanAnalytics')->name('renshi.jiaban.analytics');
+    Route::get('jiabanAnalytics', 'ApplicantController@jiabanAnalytics')->name('renshi.jiaban.analytics');
 
     // Analytics gets列表
-    Route::get('jiabanGetsAnalytics', 'JiabanController@jiabanGetsAnalytics')->name('renshi.jiaban.jiabangetsanalytics');
+    Route::get('jiabanGetsAnalytics', 'ApplicantController@jiabanGetsAnalytics')->name('renshi.jiaban.jiabangetsanalytics');
 
     // Analytics 查询applicant
-    Route::get('applicantList', 'JiabanController@applicantList')->name('renshi.jiaban.applicant.applicantlist');
+    Route::get('applicantList', 'ApplicantController@applicantList')->name('renshi.jiaban.applicant.applicantlist');
 
     
 });

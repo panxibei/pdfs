@@ -173,7 +173,6 @@ class LoginController extends Controller
 			return null;
 		}
 		
-		
 		// 如果没有经过ldap, 则更新本地用户信息
 		if (! $adldap) {
 			try	{

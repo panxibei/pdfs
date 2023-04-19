@@ -188,7 +188,7 @@ var vm_app = new Vue({
 							window.setTimeout(function(){
 								_this.loginreset;
 								// var url = "{{ route('portal') }}";
-								var url = "{{ route('renshi.jiaban.applicant') }}";
+								var url = "{{ route('pdfs.applicant') }}";
 								window.location.href = url;
 								_this.formInline.loginmessage = '';
 							}, 1500);

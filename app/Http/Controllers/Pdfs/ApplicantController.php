@@ -26,7 +26,7 @@ class ApplicantController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function jiabanApplicant()
+	public function applicant()
 	{
 	// 获取JSON格式的jwt-auth用户响应
 	$me = response()->json(auth()->user());
@@ -39,7 +39,7 @@ class ApplicantController extends Controller
 	$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
 
 	// 获取todo信息
-	$info_todo = Renshi_jiaban::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
+	$info_todo = Pdfs_applicant::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
 		->where('uid_of_auditor', $user['uid'])
 		->whereBetween('status', [1, 98])
 		->where('archived', false)
