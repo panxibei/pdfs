@@ -29,10 +29,10 @@ class JwtAuth
 	// $dateofsetup = date(base64_decode(substr($config['SITE_EXPIRED_DATE'], 1)));
 	$dateofsetup = date(decode4openssl(substr($config['SITE_EXPIRED_DATE'], 1)));
 // dd($dateofsetup);
-	if(!isDatetime($dateofsetup) || strtotime($dateofcurrent) > strtotime($dateofsetup)){
-		echo '系统框架和组件已过期，请尽快联络厂商！<br>The framework and components exceed the time limit now, Please contact the manufacturer!';
-		die(decode4openssl('WK3UUwB/CKiI1o2fmaZg8UpbN2hEUVis6t41q7zVrXXXwE53tSFOabDFKSaR9hydAG9SP3KvQWZ8pIBqcTz2pKY9nZL6fGxEz2iwOYPX2QrJEnsS6uqGpfGMOMVh5XDwA4vUlBzbMCzPqeciYNPbLL2d/ALEAof+l6Uvp/P6k0GR5U+cAnsYx2NvdAWMB6wlOstZjQguN9KzMW/6P31HWw=='));
-	}
+	//if(!isDatetime($dateofsetup) || strtotime($dateofcurrent) > strtotime($dateofsetup)){
+	//	echo '系统框架和组件已过期，请尽快联络厂商！<br>The framework and components exceed the time limit now, Please contact the manufacturer!';
+	//	die(decode4openssl('WK3UUwB/CKiI1o2fmaZg8UpbN2hEUVis6t41q7zVrXXXwE53tSFOabDFKSaR9hydAG9SP3KvQWZ8pIBqcTz2pKY9nZL6fGxEz2iwOYPX2QrJEnsS6uqGpfGMOMVh5XDwA4vUlBzbMCzPqeciYNPbLL2d/ALEAof+l6Uvp/P6k0GR5U+cAnsYx2NvdAWMB6wlOstZjQguN9KzMW/6P31HWw=='));
+	//}
 	
 	// 验证sitekey和appkey
 	$site_key = $config['SITE_KEY'];
