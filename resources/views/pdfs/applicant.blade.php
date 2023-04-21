@@ -17,7 +17,7 @@ Pdfs(Applicant) -
 
 @section('my_body')
 @parent
-<Divider orientation="left">加班申请信息</Divider>
+<Divider orientation="left">申请信息</Divider>
 
 <Tabs type="card" v-model="currenttabs">
 
@@ -1105,7 +1105,7 @@ var vm_app = new Vue({
 			var _this = this;
 			var field = 'PERPAGE_RECORDS_FOR_APPLICANT';
 			var value = pagesize;
-			var url = "{{ route('renshi.jiaban.applicant.changeconfigs') }}";
+			var url = "{{ route('pdfs.applicant.changeconfigs') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				field: field,
@@ -1161,7 +1161,7 @@ var vm_app = new Vue({
 			queryfilter_trashed = queryfilter_trashed || '';
 
 			_this.loadingbarstart();
-			var url = "{{ route('renshi.jiaban.jiabangetsapplicant') }}";
+			var url = "{{ route('pdfs.getsapplicant') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -1984,8 +1984,8 @@ var vm_app = new Vue({
 		_this.current_nav = '加班管理';
 		_this.current_subnav = '申请';
 		// 显示所有
-		_this.jiabangetsapplicant(1, 1); // page: 1, last_page: 1
-		_this.loadapplicantgroup();
+		// _this.jiabangetsapplicant(1, 1); // page: 1, last_page: 1
+		// _this.loadapplicantgroup();
 
 		GetCurrentDatetime('getcurrentdatetime');
 	}

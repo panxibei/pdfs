@@ -21,7 +21,7 @@ use Ramsey\Uuid\Uuid;
 class ApplicantController extends Controller
 {
 	/**
-	 * 列出applicant页面
+	 * 显示applicant页面
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
@@ -48,8 +48,8 @@ class ApplicantController extends Controller
 		->get()->toArray();
 
 	$share = compact('config', 'user', 'info_todo');
-	return view('renshi.jiaban_applicant', $share);
-	}
+	return view('pdfs.applicant', $share);
+}
 
 
 	/**
@@ -154,7 +154,7 @@ class ApplicantController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function jiabanGetsApplicant(Request $request)
+	public function getsApplicant(Request $request)
 	{
 	if (! $request->ajax()) return null;
 

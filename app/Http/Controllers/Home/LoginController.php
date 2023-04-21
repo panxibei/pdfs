@@ -28,15 +28,15 @@ class LoginController extends Controller
 		if (! sizeof($user)) {
 			// 无有效用户登录，则认证失败，退回登录界面
 			// return $isMobile ? redirect()->route('logincube') : redirect()->route('login');
-			if ($isMobile) {
-				return redirect()->route('logincube');
-			}
+			//if ($isMobile) {
+			//	return redirect()->route('logincube');
+			//}
 
 		} else {
 			// 如果是已经登录，则跳转至门户页面
-			// return redirect()->route('portal');
+			return redirect()->route('portal');
 
-			return $isMobile ? redirect()->route('portalcube') : redirect()->route('portal');
+			// return $isMobile ? redirect()->route('portalcube') : redirect()->route('portal');
 		}
 		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
 		return view('home.login', $config);
