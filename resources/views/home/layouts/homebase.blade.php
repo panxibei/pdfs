@@ -79,13 +79,13 @@
 <script>
 isMobile = mobile();
 if (isMobile) {
-	// alert('系统暂不支持移动端！');
-	// document.execCommand("Stop");
-    // window.stop();
+	alert('系统暂不支持移动端！');
+	document.execCommand("Stop");
+    window.stop();
     
     // window.setTimeout(function(){
-        var url = "{{route('logincube')}}";
-        window.location.href = url;
+    //    var url = "{route('logincube')}";
+    //    window.location.href = url;
     // }, 1000);
 }
 </script>
