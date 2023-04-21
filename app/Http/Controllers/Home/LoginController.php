@@ -20,7 +20,7 @@ class LoginController extends Controller
 	 */
 	public function index()
 	{
-		$isMobile = $this->isMobile();
+		// $isMobile = $this->isMobile();
 
 		$me = response()->json(auth()->user());
 		$user = json_decode($me->getContent(), true);
@@ -34,7 +34,8 @@ class LoginController extends Controller
 
 		} else {
 			// 如果是已经登录，则跳转至门户页面
-			return redirect()->route('portal');
+			// return redirect()->route('portal');
+			return redirect()->route('pdfs.applicant');
 
 			// return $isMobile ? redirect()->route('portalcube') : redirect()->route('portal');
 		}
