@@ -18,8 +18,10 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
-use Codedge\Fpdf\Fpdf\Fpdf;
+//use Codedge\Fpdf\Fpdf\Fpdf;
+//use setasign\Fpdf\Fpdf;
 use setasign\Fpdi\Fpdi;
+use Mpdf\Mpdf;
 
 use App\Models\Pdfs\Pdfs_actor;
 
@@ -199,6 +201,71 @@ dd($pdf);
 		//return view('test.pdf', $res);
 		return view('test.pdf');
     }	
+
+
+	// mPDF界面
+	public function mpdf()
+	{
+
+		//$mpdf = new Mpdf();
+
+		//$defaultConfig = (new Mpdf\Config\ConfigVariables())->getDefaults();
+		//$fontDirs = $defaultConfig['fontDir'];
+		$fontDirs = [];
+
+		$mpdf = new Mpdf([
+			'fontDir' => array_merge($fontDirs, [
+				public_path() . '/font',
+			]),
+			'fontdata' => [ // lowercase letters only in font key
+				'frutiger' => [
+					'R' => 'simhei.ttf',
+					//'I' => 'FrutigerObl-Normal.ttf',
+				]
+			],
+			'default_font' => 'frutiger'
+		]);
+
+
+
+		// Add First page
+		$mpdf->AddPage();
+		$pagecount = $mpdf->SetSourceFile(public_path() . '/font/DOCUMENTATION_jubb_trl_plg_j30.pdf');
+		$tplId = $mpdf->ImportPage($pagecount);
+		$actualsize = $mpdf->UseTemplate($tplId);
+
+
+		//$mpdf->WriteHTML('<h1>Hello world!中文测试</h1>');
+		
+		//$mpdf->SetWatermarkText('DR汉字AFT');
+		//$mpdf->showWatermarkText = true;
+
+		$mpdf->WriteFixedPosHTML('<div style="color:red;">大家好！</div>', 30, 70, 50, 90, 'auto');
+		$mpdf->WriteFixedPosHTML('<div color="blue">组织部门名称</div>', 30, 80, 50, 90, 'auto');
+		
+		$str = 'Hello倾斜文字';
+		
+		// TextWithRotationPlus($wx, $wy, $texte, $angle = 45, $fontsize = 96, $alpha = 0.2, $red = 0, $green = 0, $blue = 0)
+		$mpdf->TextWithRotationPlus(40, 50, $str, 45, 12, 1, 255, 0, 0);
+		$mpdf->TextWithRotationPlus(50, 70, $str, -45, 12, 1, 0, 0, 0);
+
+		$mpdf->SetFontSize(14);
+		$mpdf->CircularText(110, 45, 17, 'aaaa环绕文字aaaaaa', 'bottom');
+
+		$mpdf->SetDrawColor(255,0,0);
+		$mpdf->SetLineWidth(1);
+		$mpdf->Ellipse(110,47,7,9,'D');
+
+		$mpdf->Line(50,60,80,60);
+		$mpdf->Circle(110,47,17,'D');
+		$mpdf->Output();
+
+		// $res['html2pdf'] = $html2pdf;
+		//$res['html2pdf'] = $pdf->Output('I', 'generated.pdf');
+
+		//return view('test.pdf', $res);
+		return view('test.pdf');
+	}
 
 
     // 测试camera

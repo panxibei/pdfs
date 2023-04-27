@@ -14,10 +14,13 @@
         "maatwebsite/excel": "*",
         "maennchen/zipstream-php": "*",
         "mews/captcha": "*",
+        "mpdf/mpdf": "^8.0",
         "phpoffice/phpspreadsheet": "^1.28",
         "predis/predis": "*",
         "psr/http-message": "*",
+        "psr/log": "^2.0",
         "ramsey/uuid": "*",
+        "setasign/fpdf": "^1.8",
         "spatie/laravel-permission": "*",
         "tymon/jwt-auth": "*"
     },
