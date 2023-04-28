@@ -27443,7 +27443,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 	 * @param int $blue
 	 * @return string
 	 */
-	// 通过魔改watermark函数搞定文字倾斜功能
+	// 通过魔改watermark函数实现文字倾斜功能
 	function TextWithRotationPlus($wx, $wy, $texte, $angle = 45, $fontsize = 96, $alpha = 0.2, $red = 0, $green = 0, $blue = 0)
 	{
 		if ($this->PDFA || $this->PDFX) {
@@ -27518,6 +27518,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		$adj = ((cos(deg2rad($angle))) * ($strlen / 2));
 		$opp = ((sin(deg2rad($angle))) * ($strlen / 2));
 
+		// 水印的x、y坐标通常在页面中心位置，自由设定横竖坐标应该将其注释掉
 		//$wx = ($this->w / 2) - $adj + $offset / 3;
 		//$wy = ($this->h / 2) + $opp;
 
