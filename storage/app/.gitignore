@@ -1,4 +1,6 @@
 *
 !mpdf/
+!archive/
+!file/
 !public/
 !.gitignore
