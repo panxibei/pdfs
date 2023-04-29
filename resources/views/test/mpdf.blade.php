@@ -7,6 +7,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 	<title>test mPDF</title>
+	<!-- <link rel="stylesheet" href="{{ asset('css/mpdf.css') }}"> -->
 </head>
 <body>
 

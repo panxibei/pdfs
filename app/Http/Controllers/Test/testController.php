@@ -230,9 +230,9 @@ dd($pdf);
 
 		// Add First page
 		$mpdf->AddPage();
-		$pagecount = $mpdf->SetSourceFile(public_path() . '/font/DOCUMENTATION_jubb_trl_plg_j30.pdf');
-		$tplId = $mpdf->ImportPage($pagecount);
-		$actualsize = $mpdf->UseTemplate($tplId);
+		//$pagecount = $mpdf->SetSourceFile(public_path() . '/font/DOCUMENTATION_jubb_trl_plg_j30.pdf');
+		//$tplId = $mpdf->ImportPage($pagecount);
+		//$actualsize = $mpdf->UseTemplate($tplId);
 
 
 		//$mpdf->WriteHTML('<h1>Hello world!中文测试</h1>');
@@ -258,6 +258,30 @@ dd($pdf);
 
 		$mpdf->Line(50,60,80,60);
 		$mpdf->Circle(110,47,17,'D');
+
+		// 自定义CSS测试，画个有颜色的表格
+		$stylesheet = file_get_contents(public_path() . '/css/mpdf.css');
+		$mpdf->WriteHTML($stylesheet,\Mpdf\HTMLParserMode::HEADER_CSS);
+
+		$html = '<table class="mpdf_table">';
+		$html = $html . '  <tr>';
+		$html = $html . '    <th><span>月份</span></th>';
+		$html = $html . '    <th>存款</th>';
+		$html = $html . '  </tr>';
+		$html = $html . '  <tr>';
+		$html = $html . '    <td>January</td>';
+		$html = $html . '    <td>$100美元</td>';
+		$html = $html . '  </tr>';
+		$html = $html . '  <tr>';
+		$html = $html . '    <td>February</td>';
+		$html = $html . '    <td>$80美元</td>';
+		$html = $html . '  </tr>';
+		$html = $html . '</table>';	
+		
+		//$mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+		$mpdf->WriteFixedPosHTML($html, 50, 90, 70, 100);
+
+		// 输出
 		$mpdf->Output();
 
 		// $res['html2pdf'] = $html2pdf;
