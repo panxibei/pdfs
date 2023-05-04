@@ -112,7 +112,7 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
 
     // 22222222222
     // 显示todo页面
-    //Route::get('jiabanTodo', 'ApplicantController@jiabanTodo')->name('renshi.jiaban.applicant_todo');
+    Route::get('jiabanTodo', 'ApplicantController@jiabanTodo')->name('pdfs.applicant_todo');
 
     // jiaban gets列表
     //Route::get('jiabanGetsTodo', 'ApplicantController@jiabanGetsTodo')->name('renshi.jiaban.jiabangetstodo');
@@ -135,7 +135,7 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
 
     // 333333333
     // 显示confirm页面
-    //Route::get('jiabanConfirm', 'ConfirmController@jiabanConfirm')->name('renshi.jiaban.confirm');
+    Route::get('jiabanConfirm', 'ConfirmController@jiabanConfirm')->name('pdfs.confirm');
 
     // jiaban confirm gets列表
     //Route::get('jiabanGetsConfirm', 'ConfirmController@jiabanGetsConfirm')->name('renshi.jiaban.jiabangetsconfirm');
@@ -144,7 +144,7 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
 
     // 444444444
     // 显示confirm todo页面
-    //Route::get('jiabanConfirmTodo', 'ConfirmController@jiabanConfirmTodo')->name('renshi.jiaban.confirm_todo');
+    Route::get('jiabanConfirmTodo', 'ConfirmController@jiabanConfirmTodo')->name('pdfs.confirm_todo');
 
     // jiaban confirm todo gets列表
     //Route::get('jiabanGetsConfirmTodo', 'ConfirmController@jiabanGetsConfirmTodo')->name('renshi.jiaban.jiabangetsconfirmtodo');
@@ -157,7 +157,7 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
 
     // 555555555
     // 显示archived页面
-    //Route::get('jiabanArchived', 'ApplicantController@jiabanArchived')->name('renshi.jiaban.archived');
+    Route::get('jiabanArchived', 'ApplicantController@jiabanArchived')->name('pdfs.archived');
 
     // archived gets列表
     //Route::get('jiabanGetsArchived', 'ApplicantController@jiabanGetsArchived')->name('renshi.jiaban.jiabangetsarchived');
@@ -177,7 +177,7 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
 
     // 66666666
     // 显示Analytics页面
-    //Route::get('jiabanAnalytics', 'ApplicantController@jiabanAnalytics')->name('renshi.jiaban.analytics');
+    Route::get('jiabanAnalytics', 'ApplicantController@jiabanAnalytics')->name('pdfs.analytics');
 
     // Analytics gets列表
     //Route::get('jiabanGetsAnalytics', 'ApplicantController@jiabanGetsAnalytics')->name('renshi.jiaban.jiabangetsanalytics');
@@ -186,6 +186,41 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
     //Route::get('applicantList', 'ApplicantController@applicantList')->name('renshi.jiaban.applicant.applicantlist');
 
     
+});
+
+
+// AdminController路由 修改密码
+Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_admin_changepassword|permission_super_admin']], function() {
+	// 修改密码
+	Route::post('passwordchange', 'AdminController@passwordChange')->name('admin.password.change');
+});
+
+
+// AdminController路由
+Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
+	// 显示system页面
+	Route::get('systemIndex', 'AdminController@systemIndex')->name('admin.system.index');
+	
+	// 获取config数据信息
+	Route::get('systemList', 'AdminController@systemList')->name('admin.system.list');
+
+
+	// 显示config页面
+	Route::get('configIndex', 'AdminController@configIndex')->name('admin.config.index');
+
+	// 获取config数据信息
+	Route::get('configList', 'AdminController@configList')->name('admin.config.list');
+
+	// 获取group数据信息
+	Route::get('groupList', 'AdminController@groupList')->name('admin.group.list');
+	
+
+	// 修改config数据
+	Route::post('configChange', 'AdminController@configChange')->name('admin.config.change');
+
+	// logout
+	Route::get('logout', 'AdminController@logout')->name('admin.logout');
+
 });
 
 

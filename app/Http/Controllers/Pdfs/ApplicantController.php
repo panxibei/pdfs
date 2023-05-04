@@ -8,11 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Config;
 use App\Models\Admin\User;
 use App\Models\Pdfs\Pdfs_applicant;
-use App\Models\Pdfs\Pdfs_confirm;
+// use App\Models\Pdfs\Pdfs_confirm;
 use DB;
 use Mail;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\Renshi\jiaban_applicantExport;
+// use App\Exports\Renshi\jiaban_applicantExport;
 // use Spatie\Permission\Models\Role;
 // use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Cache;
@@ -48,6 +48,7 @@ class ApplicantController extends Controller
 		->get()->toArray();
 
 	$share = compact('config', 'user', 'info_todo');
+
 	return view('pdfs.applicant', $share);
 }
 

@@ -118,8 +118,8 @@ if (isMobile) {
     // window.stop();
     
     // window.setTimeout(function(){
-        var url = "{{route('renshi.jiaban.applicantcube')}}";
-        window.location.href = url;
+    //    var url = "{route('renshi.jiaban.applicantcube')}";
+    //    window.location.href = url;
     // }, 1000);
 }
 </script>
@@ -139,7 +139,7 @@ if (isMobile) {
 					<!--面包屑-->
 					<div class="layout-breadcrumb">
 						<Breadcrumb>
-							<Breadcrumb-item to="{{route('renshi.jiaban.applicant')}}">系统首页</Breadcrumb-item>
+							<Breadcrumb-item to="{{route('pdfs.applicant')}}">系统首页</Breadcrumb-item>
 							<Breadcrumb-item to="#">@{{ current_nav }}</Breadcrumb-item>
 							<Breadcrumb-item>@{{ current_subnav }}</Breadcrumb-item>
 						</Breadcrumb>
@@ -250,7 +250,7 @@ if (isMobile) {
 				<Sider hide-trigger :style="{background: '#fff', position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
 					<div style="height: 60px;">
 						<div class="layout-logo">
-							<a href="{{route('renshi.jiaban.applicant')}}">
+							<a href="{{route('pdfs.applicant')}}">
 								<span style="font-size: 16px; font-weight: bold; color: rgb(70, 76, 91);">{{$config['SITE_TITLE']}}</span>
 								<br>
 								<span style="font-size: 12px; font-weight: bold; color: rgb(70, 76, 91);">{{$config['SITE_VERSION']}}</span>
@@ -334,10 +334,10 @@ function navmenuselect (name) {
 	switch(name)
 	{
 	case '1-1':
-	  window.location.href = "{{route('renshi.jiaban.applicant')}}";
+	  window.location.href = "{{route('pdfs.applicant')}}";
 	  break;
 	case '1-2':
-	  window.location.href = "{{route('renshi.jiaban.applicant_todo')}}";
+	  window.location.href = "{{route('pdfs.applicant_todo')}}";
 	  break;
 	case '1-3':
 	  window.location.href = "";
@@ -347,10 +347,10 @@ function navmenuselect (name) {
 	  break;
 
 	case '2-1':
-	  window.location.href = "{{route('renshi.jiaban.confirm')}}";
+	  window.location.href = "{{route('pdfs.confirm')}}";
 	  break;
 	case '2-2':
-	  window.location.href = "{{route('renshi.jiaban.confirm_todo')}}";
+	  window.location.href = "{{route('pdfs.confirm_todo')}}";
 	  break;
 
 	case '2-2-1':
@@ -371,10 +371,10 @@ function navmenuselect (name) {
 	  break;
 
 	case '3-1':
-	  window.location.href = "{{route('renshi.jiaban.archived')}}";
+	  window.location.href = "{{route('pdfs.archived')}}";
 	  break;
 	case '3-2':
-	  window.location.href = "{{route('renshi.jiaban.analytics')}}";
+	  window.location.href = "{{route('pdfs.analytics')}}";
 	  break;
 	case '3-3':
 	  window.location.href = "";
