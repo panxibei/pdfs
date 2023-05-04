@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
 HeadingRowFormatter::default('none');
 
-class mpointImport implements ToModel, WithHeadingRow
+class applicantImport implements ToModel, WithHeadingRow
 {
 	//
     public function model(array $row)
