@@ -1,4 +1,4 @@
-@extends('renshi.layouts.mainbase')
+@extends('pdfs.layouts.mainbase')
 
 @section('my_title')
 Pdfs(Todo) - 
@@ -1339,7 +1339,7 @@ var vm_app = new Vue({
 			
 			if (id == undefined) return false;
 			
-			var url = "{{ route('renshi.jiaban.todo.todorestore') }}";
+			var url = "{{ route('pdfs.todo.todorestore') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				id: id
@@ -1373,7 +1373,7 @@ var vm_app = new Vue({
 			
 			if (tableselect[0] == undefined) return false;
 			
-			var url = "{{ route('renshi.jiaban.todo.todotrash') }}";
+			var url = "{{ route('pdfs.todo.todotrash') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				id: tableselect
@@ -1406,7 +1406,7 @@ var vm_app = new Vue({
 			
 			if (tableselect[0] == undefined) return false;
 			
-			var url = "{{ route('renshi.jiaban.todo.tododelete') }}";
+			var url = "{{ route('pdfs.todo.tododelete') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				id: tableselect

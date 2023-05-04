@@ -24,8 +24,8 @@ Pdfs(Applicant) -
 	<Tab-pane Icon="ios-list-box-outline" label="申请列表">
 
 		<Collapse v-model="collapse_query">
-			<Panel name="1">
-				查询过滤器
+			<Panel name="2">
+				查询
 				<p slot="content">
 				
 					<i-row :gutter="16">
@@ -58,11 +58,8 @@ Pdfs(Applicant) -
 		
 		<i-row :gutter="16">
 			<br>
-			<i-col span="3">
-				<i-button @click="ontrash_applicant()" :disabled="delete_disabled" icon="ios-trash-outline" type="warning" size="small">批量删除</i-button>&nbsp;<br>&nbsp;
-			</i-col>
 			<i-col span="2">
-				<i-button type="default" size="small" @click="oncreate_applicant_gototab()"><Icon type="ios-color-wand-outline"></Icon> 添加申请</i-button>
+				<i-button @click="ontrash_applicant()" :disabled="delete_disabled" icon="ios-trash-outline" type="warning" size="small">批量删除</i-button>&nbsp;<br>&nbsp;
 			</i-col>
 			<i-col span="2">
 				<Poptip confirm title="确定要导出当前数据吗？" placement="right-start" @on-ok="onexport_applicant()" @on-cancel="" transfer="true">
@@ -72,7 +69,22 @@ Pdfs(Applicant) -
 			<i-col span="2">
 			&nbsp;
 			</i-col>
-			<i-col span="15">
+			<i-col span="2">
+			<Upload
+				:before-upload="uploadstart"
+				:show-upload-list="false"
+				:format="['pdf']"
+				:on-format-error="handleFormatError"
+				:max-size="2048"
+				action="/">
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '批量导入' }}</i-button>
+			</Upload>
+
+			</i-col>
+			<i-col span="3">
+				<i-button type="default" size="small" @click="oncreate_applicant_gototab()"><Icon type="ios-color-wand-outline"></Icon> 添加申请</i-button>
+			</i-col>
+			<i-col span="13">
 			&nbsp;
 			</i-col>
 		</i-row>
@@ -1967,6 +1979,84 @@ var vm_app = new Vue({
 
 
 
+
+
+
+
+		// upload
+		handleFormatError (file) {
+			this.$Notice.warning({
+				title: 'The file format is incorrect',
+				// desc: 'File format of ' + file.name + ' is incorrect, please select <strong>xls</strong> or <strong>xlsx</strong>.'
+				desc: 'File format of ' + file.name + ' is incorrect, please select <strong>xls</strong> .'
+			});
+		},
+		handleMaxSize (file) {
+			this.$Notice.warning({
+				title: 'Exceeding file size limit',
+				desc: 'File  ' + file.name + ' is too large, no more than <strong>2M</strong>.'
+			});
+		},
+		handleUpload (file) {
+			this.file = file;
+			return false;
+		},
+		uploadstart (file) {
+			var _this = this;
+			_this.file = file;
+			_this.uploaddisabled = true;
+			_this.loadingStatus = true;
+
+			
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',_this.file)
+			// console.log(formData.get('file'));
+			
+			// return false;
+			
+			var url = "{{ route('smt.pdreport.mpointimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data == 1) {
+					_this.success(false, '成功', '导入成功！');
+				} else {
+					_this.error(false, '失败', '导入失败！请确保 [机种名及工序] 两项没有重复！');
+				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+			})
+		},
+		uploadcancel () {
+			this.file = null;
+			// this.loadingStatus = false;
+		},
 
 
 

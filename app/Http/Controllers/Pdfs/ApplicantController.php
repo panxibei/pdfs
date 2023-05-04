@@ -9,6 +9,9 @@ use App\Models\Admin\Config;
 use App\Models\Admin\User;
 use App\Models\Pdfs\Pdfs_applicant;
 // use App\Models\Pdfs\Pdfs_confirm;
+
+use App\Imports\Pdfs\applicantImport;
+
 use DB;
 use Mail;
 use Maatwebsite\Excel\Facades\Excel;

@@ -109,6 +109,9 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
     // 导出列表
     Route::get('applicantExport', [ApplicantController::class, 'applicantExport'])->name('renshi.jiaban.applicant.applicantexport');
 
+	// 上传导入pdf文件
+	Route::post('mpointimport', 'pdreportController@mpointImport')->name('smt.pdreport.mpointimport');
+
 
     // 22222222222
     // 显示todo页面
@@ -124,13 +127,13 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
     Route::post('todoDeny', [ApplicantController::class, 'todoDeny'])->name('pdfs.todo.deny');
 
     // todo页面 软删除
-    //Route::post('todoTrash', 'ApplicantController@todoTrash')->name('renshi.jiaban.todo.todotrash');
+    Route::post('todoTrash', [ApplicantController::class, 'todoTrash'])->name('pdfs.todo.todotrash');
 
     // todo页面 软删除恢复
-    //Route::post('todoRestore', 'ApplicantController@todoRestore')->name('renshi.jiaban.todo.todorestore');
+    Route::post('todoRestore', [ApplicantController::class, 'todoRestore'])->name('pdfs.todo.todorestore');
     
     // todo 硬删除
-    //Route::post('todoDelete', 'ApplicantController@todoDelete')->name('renshi.jiaban.todo.tododelete');
+    Route::post('todoDelete', [ApplicantController::class, 'todoDelete'])->name('pdfs.todo.tododelete');
     
 
     // 333333333
