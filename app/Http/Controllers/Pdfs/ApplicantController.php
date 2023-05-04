@@ -223,7 +223,7 @@ class ApplicantController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function jiabanGetsTodo(Request $request)
+	public function todoGets(Request $request)
 	{
 	if (! $request->ajax()) return null;
 

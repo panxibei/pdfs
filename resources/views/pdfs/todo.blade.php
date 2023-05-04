@@ -28,15 +28,15 @@ Pdfs(Todo) -
 					<i-row :gutter="16">
 						<i-col span="5">
 							代理申请人&nbsp;&nbsp;
-							<i-input v-model.lazy="queryfilter_applicant" @on-change="jiabangetstodo(page_current, page_last)" size="small" clearable style="width: 100px"></i-input>
+							<i-input v-model.lazy="queryfilter_applicant" @on-change="todogets(page_current, page_last)" size="small" clearable style="width: 100px"></i-input>
 						</i-col>
 						<i-col span="8">
 							提交时间&nbsp;
-							<Date-picker v-model.lazy="queryfilter_created_at" @on-change="jiabangetstodo(page_current, page_last)" type="datetimerange" format="yyyy-MM-dd HH:mm" size="small" placeholder="" style="width:250px"></Date-picker>
+							<Date-picker v-model.lazy="queryfilter_created_at" @on-change="todogets(page_current, page_last)" type="datetimerange" format="yyyy-MM-dd HH:mm" size="small" placeholder="" style="width:250px"></Date-picker>
 						</i-col>
 						<i-col span="2">
 							@hasanyrole('role_super_admin')
-								<Checkbox v-model="queryfilter_trashed" @on-change="jiabangetstodo(page_current, page_last)">已删除</Checkbox>
+								<Checkbox v-model="queryfilter_trashed" @on-change="todogets(page_current, page_last)">已删除</Checkbox>
 							@else
 								&nbsp;
 							@endhasanyrole
@@ -949,14 +949,14 @@ var vm_app = new Vue({
 		
 		// 切换当前页
 		oncurrentpagechange: function (currentpage) {
-			this.jiabangetstodo(currentpage, this.page_last);
+			this.todogets(currentpage, this.page_last);
 		},
 		// 切换页记录数
 		onpagesizechange: function (pagesize) {
 			var _this = this;
 			var field = 'PERPAGE_RECORDS_FOR_TODO';
 			var value = pagesize;
-			var url = "{{ route('renshi.jiaban.applicant.changeconfigs') }}";
+			var url = "{{ route('pdfs.applicant.changeconfigs') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				field: field,
@@ -973,7 +973,7 @@ var vm_app = new Vue({
 				
 				if (response.data) {
 					_this.page_size = pagesize;
-					_this.jiabangetstodo(1, _this.page_last);
+					_this.todogets(1, _this.page_last);
 				} else {
 					_this.warning(false, 'Warning', 'failed!');
 				}
@@ -983,7 +983,7 @@ var vm_app = new Vue({
 			})
 		},		
 		
-		jiabangetstodo: function(page, last_page){
+		todogets: function(page, last_page){
 			var _this = this;
 			
 			if (page > last_page) {
@@ -1011,7 +1011,7 @@ var vm_app = new Vue({
 			queryfilter_trashed = queryfilter_trashed || '';
 
 			_this.loadingbarstart();
-			var url = "{{ route('renshi.jiaban.jiabangetstodo') }}";
+			var url = "{{ route('pdfs.todogets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -1179,7 +1179,7 @@ var vm_app = new Vue({
 					return false;
 				}
 				
-				_this.jiabangetstodo(_this.page_current, _this.page_last);
+				_this.todogets(_this.page_current, _this.page_last);
 				
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
@@ -1220,7 +1220,7 @@ var vm_app = new Vue({
                 duration: 0
             });
 
-			var url = "{{ route('renshi.jiaban.todo.pass') }}";
+			var url = "{{ route('pdfs.todo.pass') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				jiaban_id: jiaban_id,
@@ -1239,7 +1239,7 @@ var vm_app = new Vue({
 				setTimeout(msg, 1000);
 				
 				if (response.data) {
-					_this.jiabangetstodo(_this.page_current, _this.page_last);
+					_this.todogets(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '成功通过！');
 					// setTimeout(() => {
 					// 	this.modal_jiaban_pass_loading = false;
@@ -1286,7 +1286,7 @@ var vm_app = new Vue({
                 duration: 0
             });
 
-			var url = "{{ route('renshi.jiaban.todo.deny') }}";
+			var url = "{{ route('pdfs.todo.deny') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				jiaban_id: jiaban_id,
@@ -1305,7 +1305,7 @@ var vm_app = new Vue({
 				setTimeout(msg, 1000);
 
 				if (response.data) {
-					_this.jiabangetstodo(_this.page_current, _this.page_last);
+					_this.todogets(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '成功否决！');
 					// setTimeout(() => {
 					// 	this.modal_jiaban_pass_loading = false;
@@ -1354,7 +1354,7 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.jiabangetstodo(_this.page_current, _this.page_last);
+					_this.todogets(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '恢复成功！');
 				} else {
 					_this.error(false, '失败', '恢复失败！');
@@ -1388,7 +1388,7 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.jiabangetstodo(_this.page_current, _this.page_last);
+					_this.todogets(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '删除成功！');
 				} else {
 					_this.error(false, '失败', '删除失败！');
@@ -1421,7 +1421,7 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.jiabangetstodo(_this.page_current, _this.page_last);
+					_this.todogets(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '删除成功！');
 				} else {
 					_this.error(false, '失败', '删除失败！');
@@ -1472,7 +1472,7 @@ var vm_app = new Vue({
 		_this.current_nav = '加班管理';
 		_this.current_subnav = '处理';
 		// 显示所有
-		_this.jiabangetstodo(1, 1); // page: 1, last_page: 1
+		_this.todogets(1, 1); // page: 1, last_page: 1
 
 		GetCurrentDatetime('getcurrentdatetime');
 	}
