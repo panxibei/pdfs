@@ -262,7 +262,7 @@ if (isMobile) {
 
 							<Submenu name="1">
 								<template slot="title">
-										<Icon type="ios-clock-outline" size="20"></Icon> 加班申请
+										<Icon type="ios-clock-outline" size="20"></Icon> XX申请
 								</template>
 								<Menu-item name="1-1"><Icon type="ios-list-box-outline" size="18"></Icon> 申请</Menu-item>
 								<Menu-item name="1-2"><Icon type="ios-create-outline" size="20"></Icon> 处理</Menu-item>
@@ -272,7 +272,7 @@ if (isMobile) {
 
 							<Submenu name="2">
 								<template slot="title">
-										<Icon type="ios-folder-outline" size="20"></Icon> 加班确认
+										<Icon type="ios-folder-outline" size="20"></Icon> XX确认
 								</template>
 								<Menu-item name="2-1"><Icon type="ios-list-box-outline" size="18"></Icon> 确认</Menu-item>
 								<Menu-item name="2-2"><Icon type="ios-create-outline" size="20"></Icon> 处理</Menu-item>
@@ -337,7 +337,7 @@ function navmenuselect (name) {
 	  window.location.href = "{{route('pdfs.applicant')}}";
 	  break;
 	case '1-2':
-	  window.location.href = "{{route('pdfs.applicant_todo')}}";
+	  window.location.href = "{{route('pdfs.todo')}}";
 	  break;
 	case '1-3':
 	  window.location.href = "";

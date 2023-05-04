@@ -112,7 +112,7 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
 
     // 22222222222
     // 显示todo页面
-    Route::get('jiabanTodo', 'ApplicantController@jiabanTodo')->name('pdfs.applicant_todo');
+    Route::get('todo', [ApplicantController::class, 'todo'])->name('pdfs.todo');
 
     // jiaban gets列表
     //Route::get('jiabanGetsTodo', 'ApplicantController@jiabanGetsTodo')->name('renshi.jiaban.jiabangetstodo');
