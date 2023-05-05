@@ -69,21 +69,9 @@ Pdfs(Applicant) -
 			&nbsp;
 			</i-col>
 			<i-col span="2">
-			<Upload
-				:before-upload="uploadstart"
-				:show-upload-list="false"
-				:format="['pdf']"
-				:on-format-error="handleFormatError"
-				:max-size="2048"
-				action="/">
-				<i-button type="primary" icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '申请导入' }}</i-button>
-			</Upload>
-
+				<i-button type="primary" size="small" @click="oncreate_applicant_gototab()"><Icon type="ios-color-wand-outline"></Icon> 添加申请</i-button>
 			</i-col>
-			<i-col span="2">
-				<i-button type="default" size="small" @click="oncreate_applicant_gototab()"><Icon type="ios-color-wand-outline"></Icon> 添加申请</i-button>
-			</i-col>
-			<i-col span="14">
+			<i-col span="16">
 			&nbsp;
 			</i-col>
 		</i-row>
@@ -414,8 +402,8 @@ Pdfs(Applicant) -
 
 	<i-row :gutter="16">
 		<i-col span="6">
-			* 加班理由&nbsp;&nbsp;
-			<i-input v-model.lazy="jiaban_add_reason" type="textarea" :autosize="{minRows: 2,maxRows: 2}"></i-input>
+			* 申请理由&nbsp;&nbsp;
+			<i-input ref="ref_reason" v-model.lazy="jiaban_add_reason" type="textarea" :autosize="{minRows: 2,maxRows: 2}"></i-input>
 		</i-col>
 
 		<i-col span="1">
@@ -428,10 +416,25 @@ Pdfs(Applicant) -
 		</i-col>
 
 		<i-col span="1">
-		&nbsp;
+			&nbsp;
+		</i-col>
+		<i-col span="3">
+			<Upload
+				:before-upload="uploadstart"
+				:show-upload-list="false"
+				:format="['pdf']"
+				:on-format-error="handleFormatError"
+				:max-size="2048"
+				type="drag"
+				action="/">
+				<!-- <i-button type="primary" icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '上传并提交' }}</i-button> -->
+				<Icon type="ios-cloud-upload" size="52" style="color: #3399ff" :loading="loadingStatus" :disabled="uploaddisabled"></Icon>
+				<p>* 选择文件上传并提交</p>
+			</Upload>
+
 		</i-col>
 
-		<i-col span="6">
+		<i-col span="3">
 		&nbsp;
 		</i-col>
 
@@ -446,140 +449,7 @@ Pdfs(Applicant) -
 		</i-col>
 	</i-row>
 
-	<i-row :gutter="16">
-		<i-col span="24">
 
-			<Tabs type="card" v-model="currenttabssub">
-				<Tab-pane label="批量同组录入">
-
-				<i-row :gutter="16">
-					<i-col span="24">
-						* 人员组&nbsp;
-						<i-select v-model.lazy="jiaban_add_applicantgroup" size="small" style="width:160px" placeholder="选择人员组">
-							<i-option v-for="item in applicantgroup_options" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</i-select>
-						&nbsp;&nbsp;
-						* 时间&nbsp;
-						<Date-picker v-model.lazy="jiaban_add_datetimerange1" :editable="false" type="datetimerange" format="yyyy-MM-dd HH:mm" size="small" placeholder="加班时间" style="width:250px"></Date-picker>
-						&nbsp;&nbsp;
-						<Tooltip content="单位小时" placement="top">
-						* 时长&nbsp;
-						<Input-number v-model.lazy="jiaban_add_duration1" :editable="false" :min="0.5" :max="40" :step="0.5" size="small" placeholder="" clearable style="width: 60px"></Input-number>
-						</Tooltip>
-						&nbsp;&nbsp;
-						* 类别&nbsp;
-						<i-select v-model.lazy="jiaban_add_category1" size="small" style="width:120px" placeholder="选择加班类别">
-							<i-option v-for="item in option_category" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</i-select>
-						&nbsp;&nbsp;
-						<i-button @click="oncreate_applicant1()" :disabled="jiaban_add_create_disabled1" size="default" type="primary">提 交</i-button>
-						&nbsp;&nbsp;<i-button @click="onclear_applicant1()" :disabled="jiaban_add_clear_disabled1" size="default">清 除</i-button>
-					
-						<br>
-						<font color="#2db7f5">* 请先在以下界面添加快捷人员组。</font>
-					</i-col>
-
-				</i-row>
-
-				<br><br>
-				<Divider dashed></Divider>
-
-				<i-row :gutter="16">
-					<i-col span="10">
-						* 人员组名称&nbsp;&nbsp;
-						<i-input v-model.lazy="applicantgroup_title" size="small" style="width: 160px"></i-input>
-						&nbsp;&nbsp;
-						<i-button @click="oncreate_applicantgroup()" icon="ios-add" size="small" type="default">新增人员组</i-button>
-					</i-col>
-					<i-col span="14">
-						<i-select v-model.lazy="applicantgroup_select" @on-change="onchange_applicantgroup" clearable size="small" placeholder="选择人员组名称查看成员" style="width: 260px;">
-							<i-option v-for="item in applicantgroup_options" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</i-select>
-						&nbsp;&nbsp;
-						<i-button @click="ondelete_applicantgroup()" icon="ios-close" size="small" type="default">删除人员组</i-button>
-					</i-col>
-
-				</i-row>
-
-				<br><br>
-				<i-row :gutter="16">
-					<i-col span="10">
-						<Tree ref="tree" :data="treedata" :load-data="loadTreeData" show-checkbox></Tree>
-					</i-col>
-					<i-col span="6">
-						<i-input v-model.lazy="applicantgroup_input" type="textarea" :rows="14" placeholder="" :readonly="true"></i-input>
-					</i-col>
-					<i-col span="8">
-					&nbsp;
-					</i-col>
-
-				</i-row>
-
-				&nbsp;
-				</Tab-pane>
-
-				<Tab-pane label="批量非同组录入">
-					<i-row :gutter="16">
-						<i-col span="4">
-							↓ 批量提交&nbsp;&nbsp;
-							<Input-number v-model.lazy="piliangluruxiang_applicant2" @on-change="value=>piliangluru_applicant_generate(value)" :min="1" :max="20" size="small" style="width: 60px"></Input-number>
-							&nbsp;项
-						</i-col>
-						<i-col span="20">
-							&nbsp;&nbsp;<i-button @click="oncreate_applicant2()" :disabled="jiaban_add_create_disabled2" size="default" type="primary">提 交</i-button>
-							&nbsp;&nbsp;<i-button @click="onclear_applicant2()" :disabled="jiaban_add_clear_disabled2" size="default">清 除</i-button>
-						</i-col>
-					</i-row>
-						
-					&nbsp;
-
-					<span v-for="(item, index) in piliangluru_applicant">
-
-					<i-row>
-					<br>
-						<!-- <i-col span="1">
-							&nbsp;(@{{index+1}})
-						</i-col> -->
-						<i-col span="4">
-							* 工号&nbsp;
-							<i-select v-model.lazy="item.uid" filterable remote :remote-method="remoteMethod_applicant" :loading="applicant_loading" @on-change="value=>onchange_applicant(value, index)" clearable placeholder="输入后选择" size="small" style="width: 120px;">
-								<i-option v-for="item in applicant_options" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</i-select>
-						</i-col>
-						<i-col span="3">
-							姓名&nbsp;
-							<i-input v-model.lazy="item.applicant" readonly="true" size="small" placeholder="例：张三" style="width: 80px"></i-input>
-						</i-col>
-						<i-col span="3">
-							部门&nbsp;
-							<i-input v-model.lazy="item.department" readonly="true" size="small" placeholder="例：生产部" style="width: 80px"></i-input>
-						</i-col>
-						<i-col span="7">
-							* 时间&nbsp;
-							<Date-picker v-model.lazy="item.datetimerange" :editable="false" type="datetimerange" format="yyyy-MM-dd HH:mm" size="small" placeholder="加班时间" style="width:250px"></Date-picker>
-						</i-col>
-						<i-col span="3">
-							<Tooltip content="单位小时" placement="top">
-							* 时长&nbsp;
-							<Input-number v-model.lazy="item.duration" :editable="false" :min="0.5" :max="40" :step="0.5" size="small" placeholder="" clearable style="width: 60px"></Input-number>
-							</Tooltip>
-						</i-col>
-						<i-col span="4">
-							* 类别&nbsp;
-							<i-select v-model.lazy="item.category" size="small" style="width:120px" placeholder="选择加班类别">
-								<i-option v-for="item in option_category" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</i-select>
-						</i-col>
-						
-					</i-row>
-					<br>
-					</span>
-					&nbsp;
-				</Tab-pane>
-			</Tabs>
-
-		</i-col>
-	</i-row>
 
 
 
@@ -1985,7 +1855,22 @@ var vm_app = new Vue({
 		},
 		uploadstart (file) {
 			var _this = this;
+			if (_this.jiaban_add_reason == '' || _this.jiaban_add_reason == undefined) {
+				_this.error(false, '失败', '请先填写说明理由！');
+				//_this.file = null;
+				//_this.loadingStatus = false;
+				//_this.uploaddisabled = false;
+				_this.$refs.ref_reason.focus();
+				return false;
+			}
+
 			_this.file = file;
+			
+			if (_this.file['type'] != 'application/pdf') {
+				_this.error(false, '失败', '文档格式不正确！');
+				return false;
+			}
+			
 			_this.uploaddisabled = true;
 			_this.loadingStatus = true;
 
@@ -2038,6 +1923,9 @@ var vm_app = new Vue({
 		uploadcancel () {
 			this.file = null;
 			// this.loadingStatus = false;
+			if (this.jiaban_add_reason == '' || this.jiaban_add_reason == undefined) {
+				this.$refs.ref_reason.focus();
+			}
 		},
 
 

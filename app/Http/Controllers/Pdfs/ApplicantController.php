@@ -2247,7 +2247,6 @@ class ApplicantController extends Controller
 
 		// 接收文件
 		$fileCharater = $request->file('myfile');
-		// dd($fileCharater);
  
 		if ($fileCharater->isValid()) { //括号里面的是必须加的哦
 			//如果括号里面的不加上的话，下面的方法也无法调用的
@@ -2266,17 +2265,194 @@ class ApplicantController extends Controller
 
 			//定义文件名
 			// $filename = date('Y-m-d-h-i-s').'.'.$ext;
-			$filename = 'pdf.'.$ext;
+			$filename = 'pdf' . date('YmdHis') . '.' .$ext;
 			// dd($filename);
+			$filepath = 'file/'.date('Ymd');
 
 			//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
 			// $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
-			$fileCharater->storeAs('file/'.date('Y-m-d'), $filename);
+			$fileCharater->storeAs($filepath, $filename);
 			// dd($filename);
-			return 1;
+			// Storage::delete('excel/'.$filename);
+
 		} else {
 			return 0;
 		}
+
+
+
+		$reason = $request->input('reason');
+		$remark = $request->input('remark');
+	
+		$uuid4 = Uuid::uuid4();
+		$uuid = $uuid4->toString();
+
+		// 用户信息：$user['id']、$user['name'] 等
+		$me = response()->json(auth()->user());
+		$user = json_decode($me->getContent(), true);
+	
+		$id_of_agent = $user['id'];
+		$uid_of_agent = $user['uid'];
+		$agent = $user['displayname'];
+		$department_of_agent = $user['department'];
+
+		// get auditor
+		$a = User::select('auditing')
+			->where('id', $user['id'])
+			->first();
+
+		// $b = json_decode($a['auditing'], true);
+		$b = $a['auditing'];
+
+		$id_of_auditor = $b[0]['id'];
+		$uid_of_auditor = $b[0]['uid'];
+		$auditor = $b[0]['name'];
+		$department_of_auditor = $b[0]['department'];
+	
+		// get progress
+		$progress = intval(1 / (count($b) + 1) * 100);
+
+
+
+		
+		// 查找批量applicant信息
+		$res1 = User::select('applicant_group')
+			->where('id', $id_of_agent)
+			->first();
+	
+		// $res2 = json_decode($res1['applicant_group'], true);
+		$res2 = $res1['applicant_group'];
+	
+		foreach ($res2 as $key => $value) {
+			if ($applicantgroup == $value['title']) {
+				$res3 = $value['applicants'];
+				break;
+			}
+		}
+	
+		foreach ($res3 as $key => $value) {
+			$tmpstr = explode(' (ID:', $value);
+			$applicant_id[] = substr($tmpstr[1], 0, strlen($tmpstr[1]) - 1);
+		}
+		// dd($applicant_id);
+	
+		// get applicant info
+		$users = User::select('uid', 'displayname as applicant', 'department')
+			->whereIn('id', $applicant_id)
+			->get()->toArray();
+	
+		foreach ($users as $key => $value) {
+			$s[$key]['uid'] = $value['uid'];
+			$s[$key]['applicant'] = $value['applicant'];
+			$s[$key]['department'] = $value['department'];
+			// $s[$key]['category'] = $category;
+			// $s[$key]['datetimerange'] = date('Y-m-d H:i', strtotime($datetimerange[0])) . ' - ' . date('Y-m-d H:i', strtotime($datetimerange[1]));
+			// $s[$key]['duration'] = $duration;
+		}
+	
+		// $application = json_encode(
+		// 	$s, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+		// );
+		$application = $s;
+	dd($s);
+		// 写入数据库
+		try	{
+			DB::beginTransaction();
+			
+			Pdfs_applicant::create([
+				'uuid' => $uuid,
+				'id_of_agent' => $id_of_agent,
+				'uid_of_agent' => $uid_of_agent,
+				'agent' => $agent,
+				'department_of_agent' => $department_of_agent,
+				'index_of_auditor' => 1,
+				'id_of_auditor' => $id_of_auditor,
+				'uid_of_auditor' => $uid_of_auditor,
+				'auditor' => $auditor,
+				'department_of_auditor' => $department_of_auditor,
+				// 'application' => json_encode($s, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+				'application' => $application,
+				'progress' => $progress,
+				'status' => 1,
+				'reason' => $reason,
+				'remark' => $remark,
+				'fileurl' => $filepath . '/' . $filename,
+			]);
+	
+			$result = 1;
+		}
+		catch (\Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			DB::rollBack();
+			// return 'Message: ' .$e->getMessage();
+			return 0;
+		}
+	
+		DB::commit();
+		Cache::flush();
+	
+		// 发送邮件消息
+		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
+		$email_enabled = $config['EMAIL_ENABLED'];
+		$site_title = $config['SITE_TITLE'];
+		
+		if ($email_enabled == '1') {
+			if ($id_of_auditor != '无') {
+	
+				$email_of_auditor = User::select('email')->where('id', $id_of_auditor)->first();
+				
+				// addressee
+				$agent_name = $user['displayname'];
+				
+				// auditor
+				// $auditor = $auditor;
+	
+				// subject
+				$subject = '【' . $site_title . '】 您有一条来自 [' . $agent_name . '] 的新消息等待处理';
+	
+				// $to = 'kydd2008@163.com';
+				$to = $email_of_auditor['email'];
+	
+				// Mail::send()的返回值为空，所以可以其他方法进行判断
+				Mail::send('renshi.jiaban_mailtemplate_pass', ['agent_name'=>$agent_name, 'auditor'=>$auditor, 'site_title'=>$site_title], function($message) use($to, $subject){
+					$message ->to($to)->subject($subject);
+				});
+				// 返回的一个错误数组，利用此可以判断是否发送成功
+				if (empty(Mail::failures())) {
+					// dd('Sent OK!');
+				} else {
+					// dd(Mail::failures());
+				}
+	
+			} else {
+	
+				// addressee
+				$agent_name = $user['displayname'];
+				
+				// auditor
+				// $auditor = $auditor;
+	
+				// subject
+				$subject = '【' . $site_title . '】 您的申请已经通过 ○';
+	
+				// $to = 'kydd2008@163.com';
+				$to = $user['email'];
+	
+				// Mail::send()的返回值为空，所以可以其他方法进行判断
+				Mail::send('renshi.jiaban_mailtemplate_finished', ['agent_name'=>$agent_name, 'uuid'=>$uuid, 'site_title'=>$site_title], function($message) use($to, $subject){
+					$message ->to($to)->subject($subject);
+				});
+				// 返回的一个错误数组，利用此可以判断是否发送成功
+				if (empty(Mail::failures())) {
+					// dd('Sent OK!');
+				} else {
+					// dd(Mail::failures());
+				}		
+			}
+		}
+	
+		return $result;		
+
 
 
 	}
