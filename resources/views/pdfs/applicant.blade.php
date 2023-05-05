@@ -6,11 +6,10 @@ Pdfs(Applicant) -
 @endsection
 
 @section('my_style')
-<link rel="stylesheet" href="{{ asset('css/camera.css') }}">
+
 @endsection
 
 @section('my_js')
-<script src="{{ asset('js/camera.js') }}"></script>
 <script type="text/javascript">
 </script>
 @endsection
@@ -77,14 +76,14 @@ Pdfs(Applicant) -
 				:on-format-error="handleFormatError"
 				:max-size="2048"
 				action="/">
-				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '批量导入' }}</i-button>
+				<i-button type="primary" icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '申请导入' }}</i-button>
 			</Upload>
 
 			</i-col>
-			<i-col span="3">
+			<i-col span="2">
 				<i-button type="default" size="small" @click="oncreate_applicant_gototab()"><Icon type="ios-color-wand-outline"></Icon> 添加申请</i-button>
 			</i-col>
-			<i-col span="13">
+			<i-col span="14">
 			&nbsp;
 			</i-col>
 		</i-row>
@@ -129,7 +128,7 @@ Pdfs(Applicant) -
 									<i-input v-model.lazy="jiaban_edit_agent" readonly="true" style="width: 160px" size="small"></i-input>
 									<div id="id_print_img" class="api" slot="content">
 										<div class="">
-											<img :src="jiaban_edit_camera_imgurl" alt="暂无内容">
+											暂无内容
 										</div>
 									</div>
 								</Poptip>
@@ -411,7 +410,6 @@ Pdfs(Applicant) -
 
 	</Tab-pane>
 
-
 	<Tab-pane Icon="ios-color-wand-outline" label="开始申请">
 
 	<i-row :gutter="16">
@@ -434,16 +432,7 @@ Pdfs(Applicant) -
 		</i-col>
 
 		<i-col span="6">
-		<br>
-			* 状态：&nbsp;
-			<span v-if="camera_imgurl==''">
-				未完成 <Icon type="md-close"></Icon>
-			</span>
-			<span v-else>
-				已完成 <Icon type="md-checkmark"></Icon>
-			</span>
-			<br>
-			<i-button id="startcapture" @click="vm_app.modal_camera_show=true" icon="ios-camera-outline" size="default">拍 照</i-button>
+		&nbsp;
 		</i-col>
 
 		<i-col span="4">
@@ -601,11 +590,11 @@ Pdfs(Applicant) -
 
 	</Tab-pane>
 
+
 </Tabs>
 
 <my-passwordchange></my-passwordchange>
 
-<my-camera></my-camera>
 
 @endsection
 
@@ -621,7 +610,6 @@ var vm_app = new Vue({
 	el: '#app',
 	components: {
 		'my-passwordchange': httpVueLoader("{{ asset('components/my-passwordchange.vue') }}"),
-		'my-camera': httpVueLoader("{{ asset('components/my-camera.vue') }}")
 	},
     data: {
 		// 是否全屏
@@ -629,10 +617,6 @@ var vm_app = new Vue({
 
 		// 修改密码界面
 		modal_password_edit: false,
-
-		// 拍照界面
-		modal_camera_show: false,
-        camera_imgurl: '',
 
 		current_nav: '',
 		current_subnav: '',
@@ -967,7 +951,6 @@ var vm_app = new Vue({
 		jiaban_edit_status: 0,
 		jiaban_edit_reason: '',
 		jiaban_edit_remark: '',
-		jiaban_edit_camera_imgurl: '',
 		jiaban_edit_auditing: '',
 		jiaban_edit_auditing_circulation: '',
 		jiaban_edit_auditing_index: 0,
@@ -1231,10 +1214,9 @@ var vm_app = new Vue({
 			var duration = _this.jiaban_add_duration1;
 			var datetimerange = _this.jiaban_add_datetimerange1;
 			var applicantgroup = _this.jiaban_add_applicantgroup;
-			var camera_imgurl = _this.camera_imgurl;
 
-			if (applicantgroup == '' || reason == '' || category == ''  || duration == '' || datetimerange[0] == '' || camera_imgurl == ''
-				|| applicantgroup == undefined|| reason == undefined || category == undefined || duration == undefined || datetimerange[0] == undefined || camera_imgurl == undefined) {
+			if (applicantgroup == '' || reason == '' || category == ''  || duration == '' || datetimerange[0] == ''
+				|| applicantgroup == undefined|| reason == undefined || category == undefined || duration == undefined || datetimerange[0] == undefined) {
 				_this.warning(false, '警告', '输入内容为空或不正确！');
 				_this.jiaban_add_create_disabled1 = false;
 				_this.jiaban_add_clear_disabled1 = false;
@@ -1255,7 +1237,6 @@ var vm_app = new Vue({
 				duration: duration,
 				datetimerange: datetimerange,
 				applicantgroup: applicantgroup,
-				camera_imgurl: camera_imgurl,
 			})
 			.then(function (response) {
 				// console.log(response.data);
@@ -1297,7 +1278,6 @@ var vm_app = new Vue({
 			_this.jiaban_add_datetimerange1 = '';
 			_this.jiaban_add_duration1 = '';
 			_this.jiaban_add_category1 = '';
-			_this.camera_imgurl = '';
 		},
 
 		// oncreate_applicant2
@@ -1311,10 +1291,9 @@ var vm_app = new Vue({
 
 			var jiaban_add_reason = _this.jiaban_add_reason;
 			var jiaban_add_remark = _this.jiaban_add_remark;
-			var camera_imgurl = _this.camera_imgurl;
 
-			if (jiaban_add_reason == '' || camera_imgurl == ''
-				|| jiaban_add_reason == undefined || camera_imgurl == undefined) {
+			if (jiaban_add_reason == ''
+				|| jiaban_add_reason == undefined) {
 				booFlagOk = false;
 			} else {
 				_this.piliangluru_applicant.map(function (v,i) {
@@ -1345,7 +1324,6 @@ var vm_app = new Vue({
 				reason: jiaban_add_reason,
 				remark: jiaban_add_remark,
 				piliangluru: piliangluru_applicant,
-				camera_imgurl: camera_imgurl,
 			})
 			.then(function (response) {
 				// console.log(response.data);
@@ -1384,7 +1362,6 @@ var vm_app = new Vue({
 			var _this = this;
 			_this.jiaban_add_reason = '';
 			_this.jiaban_add_remark = '';
-			_this.camera_imgurl = '';
 			_this.piliangluru_applicant.map(function (v,i) {
 				v.uid = '';
 				v.applicant = '';
@@ -1666,7 +1643,6 @@ var vm_app = new Vue({
 			_this.jiaban_edit_status = row.status;
 			_this.jiaban_edit_reason = row.reason;
 			_this.jiaban_edit_remark = row.remark;
-			_this.jiaban_edit_camera_imgurl = row.camera_imgurl;
 			// _this.jiaban_edit_auditing = JSON.parse(row.auditing);
 			_this.jiaban_edit_auditing = row.auditing;
 			_this.jiaban_edit_created_at = row.created_at;
@@ -2077,7 +2053,7 @@ var vm_app = new Vue({
 	},
 	mounted: function(){
 		var _this = this;
-		_this.current_nav = '加班管理';
+		_this.current_nav = 'XX管理';
 		_this.current_subnav = '申请';
 		// 显示所有
 		// _this.jiabangetsapplicant(1, 1); // page: 1, last_page: 1
