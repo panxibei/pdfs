@@ -110,7 +110,7 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
     Route::get('applicantExport', [ApplicantController::class, 'applicantExport'])->name('renshi.jiaban.applicant.applicantexport');
 
 	// 上传导入pdf文件
-	Route::post('mpointimport', 'pdreportController@mpointImport')->name('smt.pdreport.mpointimport');
+	Route::post('applicantimport', [ApplicantController::class, 'applicantImport'])->name('pdfs.applicantimport');
 
 
     // 22222222222

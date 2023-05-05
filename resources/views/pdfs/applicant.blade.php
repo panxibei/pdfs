@@ -686,6 +686,12 @@ var vm_app = new Vue({
 		applicant_options: [],
 		applicant_loading: false,
 
+		// 上传文件
+		file: null,
+		loadingStatus: false,
+		uploaddisabled: false,
+
+
 		tablecolumns: [
 			{
 				type: 'selection',
@@ -2015,7 +2021,7 @@ var vm_app = new Vue({
 			
 			// return false;
 			
-			var url = "{{ route('smt.pdreport.mpointimport') }}";
+			var url = "{{ route('pdfs.applicantimport') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 			axios({
