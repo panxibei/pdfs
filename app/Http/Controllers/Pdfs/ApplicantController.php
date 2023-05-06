@@ -2254,41 +2254,53 @@ class ApplicantController extends Controller
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		// 接收文件
-		$fileCharater = $request->file('myfile');
-		$reason = $request->input('reason');
-		$remark = $request->input('remark');
- 
-		if ($fileCharater->isValid()) { //括号里面的是必须加的哦
-			//如果括号里面的不加上的话，下面的方法也无法调用的
+		$filenum = $request->input('filenum');
 
-			//获取文件的扩展名 
-			$ext = $fileCharater->extension();
-			// dd($ext);
-			// if ($ext != 'xls' && $ext != 'xlsx') {
-			if ($ext != 'pdf') {
-				return 0;
-			}
+		$fileCharater = [];
 
-			//获取文件的绝对路径
-			// $path = $fileCharater->path();
-			// dd($path);
-
-			//定义文件名
-			// $filename = date('Y-m-d-h-i-s').'.'.$ext;
-			$filename = 'pdf' . date('YmdHis') . '.' .$ext;
-			// dd($filename);
-			$filepath = 'file/'.date('Ymd');
-
-			//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
-			// $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
-			//$fileCharater->storeAs($filepath, $filename);
-			// dd($filename);
-			// Storage::delete('excel/'.$filename);
-
-		} else {
-			return 0;
+		for ($i=0; $i<$filenum; $i++) {
+			array_push($fileCharater, $request->file('file'.$i));
 		}
 
+
+		// $fileCharater = $request->file('myfile');
+ 
+		for ($i=0; $i<$filenum; $i++) {
+			if ($fileCharater[$i]->isValid()) { //括号里面的是必须加的哦
+				//如果括号里面的不加上的话，下面的方法也无法调用的
+
+				//获取文件的扩展名 
+				$ext = $fileCharater[$i]->extension();
+				// dd($ext);
+				// if ($ext != 'xls' && $ext != 'xlsx') {
+				if ($ext != 'pdf') {
+					return 0;
+				}
+
+				//获取文件的绝对路径
+				// $path = $fileCharater->path();
+				// dd($path);
+
+				//定义文件名
+				// $filename = date('Y-m-d-h-i-s').'.'.$ext;
+				// pdf 2023 04 05 01 02 03 00.pdf
+				$filename[$i] = 'pdf' . date('YmdHis') . str_pad($i, 2, "0", STR_PAD_LEFT) . '.' .$ext;
+				// dd($filename);
+				$filepath[$i] = 'file/'.date('Ymd');
+
+				//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
+				// $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
+				$fileCharater[$i]->storeAs($filepath[$i], $filename[$i]);
+				// dd($filename);
+				// Storage::delete('excel/'.$filename);
+
+			} else {
+				return 0;
+			}
+		}
+
+		$reason = $request->input('reason');
+		$remark = $request->input('remark');
 
 	
 		$uuid4 = Uuid::uuid4();
@@ -2366,9 +2378,11 @@ class ApplicantController extends Controller
 		}
  */
 
-		$s[0]['pid'] = 1;
-		$s[0]['filepath'] = $filepath;
-		$s[0]['filename'] = $filename;
+		for ($i=0; $i<$filenum; $i++) {
+			$s[$i]['pid'] = $i;
+			$s[$i]['filepath'] = $filepath[$i];
+			$s[$i]['filename'] = $filename[$i];
+		}
 
 		// $application = json_encode(
 		// 	$s, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
@@ -2396,7 +2410,7 @@ class ApplicantController extends Controller
 				'status' => 1,
 				'reason' => $reason,
 				'remark' => $remark,
-				'fileurl' => $filepath . '/' . $filename,
+				// 'fileurl' => $filepath . '/' . $filename,
 			]);
 	
 			$result = 1;
