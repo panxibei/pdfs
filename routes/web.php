@@ -65,7 +65,7 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
     Route::get('employeeList', [ApplicantController::class, 'employeeList'])->name('renshi.jiaban.applicant.employeelist');
 
     // applicant页面 批量录入1
-    Route::post('applicantCreate1', [ApplicantController::class, 'applicantCreate1'])->name('renshi.jiaban.applicant.applicantcreate1');
+    Route::post('applicantCreate1', [ApplicantController::class, 'applicantCreate1'])->name('pdfs.applicant.applicantcreate1');
 
     // applicant页面 批量录入2
     Route::post('applicantCreate2', [ApplicantController::class, 'applicantCreate2'])->name('renshi.jiaban.applicant.applicantcreate2');

@@ -403,7 +403,7 @@ Pdfs(Applicant) -
 	<i-row :gutter="16">
 		<i-col span="6">
 			* 申请理由&nbsp;&nbsp;
-			<i-input ref="ref_reason" v-model.lazy="jiaban_add_reason" type="textarea" :autosize="{minRows: 2,maxRows: 2}"></i-input>
+			<i-input ref="ref_reason" v-model.lazy="pdfs_add_reason" type="textarea" :autosize="{minRows: 2,maxRows: 2}"></i-input>
 		</i-col>
 
 		<i-col span="1">
@@ -412,7 +412,7 @@ Pdfs(Applicant) -
 
 		<i-col span="6">
 			备注&nbsp;&nbsp;
-			<i-input v-model.lazy="jiaban_add_remark" type="textarea" :autosize="{minRows: 2,maxRows: 2}"></i-input>
+			<i-input v-model.lazy="pdfs_add_remark" type="textarea" :autosize="{minRows: 2,maxRows: 2}"></i-input>
 		</i-col>
 
 		<i-col span="1">
@@ -420,25 +420,37 @@ Pdfs(Applicant) -
 		</i-col>
 		<i-col span="3">
 			<Upload
-				:before-upload="uploadstart"
+				ref="upload"
+				:default-file-list="defaultList"
+				:before-upload="beforeupload"
 				:show-upload-list="false"
 				:format="['pdf']"
 				:on-format-error="handleFormatError"
 				:max-size="2048"
+				multiple
 				type="drag"
 				action="/">
 				<!-- <i-button type="primary" icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '上传并提交' }}</i-button> -->
 				<Icon type="ios-cloud-upload" size="52" style="color: #3399ff" :loading="loadingStatus" :disabled="uploaddisabled"></Icon>
-				<p>* 选择文件上传并提交</p>
+				<p>* 选择文件上传</p>
 			</Upload>
 
+			<div v-for="(item, index) in uploadList">
+				<span>@{{ item.name }}</span>
+					<Icon type="ios-trash-outline" @click.native="uploadListRemove(index)"></Icon>
+			</div>
+
+		</i-col>
+
+		<i-col span="1">
+			&nbsp;
 		</i-col>
 
 		<i-col span="3">
-		&nbsp;
+			<i-button type="primary" icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="large" @click="uploadstart">提交</i-button>
 		</i-col>
 
-		<i-col span="4">
+		<i-col span="3">
 			&nbsp;&nbsp;
 		</i-col>
 	</i-row>
@@ -501,8 +513,8 @@ var vm_app = new Vue({
 		page_last: 1,
 
 		// 创建
-		jiaban_add_reason: '',
-		jiaban_add_remark: '',
+		pdfs_add_reason: '测试',
+		pdfs_add_remark: '',
 
 		jiaban_add_applicantgroup: '',
 		jiaban_add_datetimerange1: [],
@@ -541,7 +553,9 @@ var vm_app = new Vue({
 		applicant_loading: false,
 
 		// 上传文件
-		file: null,
+		// file: null,
+		defaultList: [],
+		uploadList: [], // 获取上传列表
 		loadingStatus: false,
 		uploaddisabled: false,
 
@@ -1078,8 +1092,8 @@ var vm_app = new Vue({
 			_this.jiaban_add_clear_disabled1 = true;
 			_this.jiaban_add_create_disabled1 = true;
 
-			var reason = _this.jiaban_add_reason;
-			var remark = _this.jiaban_add_remark;
+			var reason = _this.pdfs_add_reason;
+			var remark = _this.pdfs_add_remark;
 			var category = _this.jiaban_add_category1;
 			var duration = _this.jiaban_add_duration1;
 			var datetimerange = _this.jiaban_add_datetimerange1;
@@ -1098,7 +1112,7 @@ var vm_app = new Vue({
                 duration: 0
             });
 			
-			var url = "{{ route('renshi.jiaban.applicant.applicantcreate1') }}";
+			var url = "{{ route('pdfs.applicant.applicantcreate1') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				reason: reason,
@@ -1142,8 +1156,8 @@ var vm_app = new Vue({
         // onclear_applicant1
 		onclear_applicant1: function () {
 			var _this = this;
-			_this.jiaban_add_reason = '';
-			_this.jiaban_add_remark = '';
+			_this.pdfs_add_reason = '';
+			_this.pdfs_add_remark = '';
 			_this.jiaban_add_applicantgroup = '';
 			_this.jiaban_add_datetimerange1 = '';
 			_this.jiaban_add_duration1 = '';
@@ -1159,11 +1173,11 @@ var vm_app = new Vue({
 
 			var booFlagOk = true;
 
-			var jiaban_add_reason = _this.jiaban_add_reason;
-			var jiaban_add_remark = _this.jiaban_add_remark;
+			var pdfs_add_reason = _this.pdfs_add_reason;
+			var pdfs_add_remark = _this.pdfs_add_remark;
 
-			if (jiaban_add_reason == ''
-				|| jiaban_add_reason == undefined) {
+			if (pdfs_add_reason == ''
+				|| pdfs_add_reason == undefined) {
 				booFlagOk = false;
 			} else {
 				_this.piliangluru_applicant.map(function (v,i) {
@@ -1191,8 +1205,8 @@ var vm_app = new Vue({
 			var url = "{{ route('renshi.jiaban.applicant.applicantcreate2') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				reason: jiaban_add_reason,
-				remark: jiaban_add_remark,
+				reason: pdfs_add_reason,
+				remark: pdfs_add_remark,
 				piliangluru: piliangluru_applicant,
 			})
 			.then(function (response) {
@@ -1230,8 +1244,8 @@ var vm_app = new Vue({
         // onclear_applicant2
 		onclear_applicant2: function () {
 			var _this = this;
-			_this.jiaban_add_reason = '';
-			_this.jiaban_add_remark = '';
+			_this.pdfs_add_reason = '';
+			_this.pdfs_add_remark = '';
 			_this.piliangluru_applicant.map(function (v,i) {
 				v.uid = '';
 				v.applicant = '';
@@ -1853,9 +1867,9 @@ var vm_app = new Vue({
 			this.file = file;
 			return false;
 		},
-		uploadstart (file) {
+		beforeupload (file) {
 			var _this = this;
-			if (_this.jiaban_add_reason == '' || _this.jiaban_add_reason == undefined) {
+			if (_this.pdfs_add_reason == '' || _this.pdfs_add_reason == undefined) {
 				_this.error(false, '失败', '请先填写说明理由！');
 				//_this.file = null;
 				//_this.loadingStatus = false;
@@ -1864,12 +1878,34 @@ var vm_app = new Vue({
 				return false;
 			}
 
-			_this.file = file;
+			//_this.file = file;
+			_this.defaultList.push(file); // 收集文件数量
+			_this.uploadList.push(file); // 收集文件数量
+			//console.log(_this.uploadList);
+
+			//let formData = new FormData();
+			// formData.append('file',e.target.files[0])
+			//formData.append('myfile',_this.file);
+
+			//console.log(formData.get('myfile'));
+
+			//return false;
+
+
+
+
+
+			//console.log(file);
+			//return false;
 			
-			if (_this.file['type'] != 'application/pdf') {
-				_this.error(false, '失败', '文档格式不正确！');
-				return false;
+			for(var i=0;i<_this.uploadList.length;i++){
+				console.log(_this.uploadList[i]);
+				if (_this.uploadList[i]['type'] != 'application/pdf') {
+					_this.error(false, '失败', '文档格式不正确！');
+					return false;
+				}
 			}
+			return false;
 			
 			_this.uploaddisabled = true;
 			_this.loadingStatus = true;
@@ -1877,9 +1913,17 @@ var vm_app = new Vue({
 			
 			let formData = new FormData()
 			// formData.append('file',e.target.files[0])
-			formData.append('myfile',_this.file)
-			// console.log(formData.get('file'));
-			
+			// formData.append('myfile',_this.file)
+			for(var i=0;i<File.length;i++){
+				formData.append("uploadFile",that.file[i]);   // 文件对象
+			}
+
+
+
+			formData.append('reason',_this.pdfs_add_reason)
+			formData.append('remark',_this.pdfs_add_remark)
+			// console.log(formData.get('myfile'));
+			// console.log(formData.get('reason'));
 			// return false;
 			
 			var url = "{{ route('pdfs.applicantimport') }}";
@@ -1897,11 +1941,12 @@ var vm_app = new Vue({
 					_this.alert_logout();
 					return false;
 				}
-				
-				if (response.data == 1) {
-					_this.success(false, '成功', '导入成功！');
+				console.log(response.data);
+				if (response.data != 0) {
+					 _this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, '失败', '导入失败！请确保 [机种名及工序] 两项没有重复！');
+					_this.error(false, '失败', '导入失败！');
+					return false;
 				}
 				
 				setTimeout( function () {
@@ -1918,12 +1963,64 @@ var vm_app = new Vue({
 					_this.loadingStatus = false;
 					_this.uploaddisabled = false;
 				}, 1000);
+				return false;
 			})
+return false;
+
+			
+			var reason = _this.pdfs_add_reason;
+			var remark = _this.pdfs_add_remark;
+
+			var url = "{{ route('pdfs.applicant.applicantcreate1') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url,{
+				uuid: uuid,
+				reason: reason,
+				remark: remark,
+			})
+			.then(function (response) {
+				console.log(response.data);
+				return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.applicantgroup_title = '';
+					_this.loadapplicantgroup();
+					_this.success(false, '成功', '新增人员组成功！');
+				} else {
+					_this.warning(false, '失败', '新增人员组失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+			})
+
+
+
+
+
+
+		},
+		uploadstart () {
+			var _this = this;
+			for(var i=0;i<_this.uploadList.length;i++){
+				console.log(_this.uploadList[i]);
+			}
+			return false;
+		},
+		uploadListRemove (index) {
+			var _this = this;
+			_this.uploadList.splice(index, 1);
+			console.log(_this.uploadList);
 		},
 		uploadcancel () {
 			this.file = null;
 			// this.loadingStatus = false;
-			if (this.jiaban_add_reason == '' || this.jiaban_add_reason == undefined) {
+			if (this.pdfs_add_reason == '' || this.pdfs_add_reason == undefined) {
 				this.$refs.ref_reason.focus();
 			}
 		},

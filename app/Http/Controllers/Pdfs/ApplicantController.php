@@ -1022,14 +1022,15 @@ class ApplicantController extends Controller
 
 	$reason = $request->input('reason');
 	$remark = $request->input('remark');
-	$category = $request->input('category');
-	$duration = $request->input('duration');
-	$datetimerange = $request->input('datetimerange');
-	$applicantgroup = $request->input('applicantgroup');
-	$camera_imgurl = $request->input('camera_imgurl');
+	// $category = $request->input('category');
+	// $duration = $request->input('duration');
+	// $datetimerange = $request->input('datetimerange');
+	// $applicantgroup = $request->input('applicantgroup');
+	// $camera_imgurl = $request->input('camera_imgurl');
 
-	$uuid4 = Uuid::uuid4();
-	$uuid = $uuid4->toString();
+	// $uuid4 = Uuid::uuid4();
+	// $uuid = $uuid4->toString();
+	$uuid = $request->input('uuid');
 
 	// 用户信息：$user['id']、$user['name'] 等
 	$me = response()->json(auth()->user());
@@ -1056,6 +1057,7 @@ class ApplicantController extends Controller
 	// get progress
 	$progress = intval(1 / (count($b) + 1) * 100);
 
+/*
 	// 查找批量applicant信息
 	$res1 = User::select('applicant_group')
 		->where('id', $id_of_agent)
@@ -1090,6 +1092,12 @@ class ApplicantController extends Controller
 		$s[$key]['datetimerange'] = date('Y-m-d H:i', strtotime($datetimerange[0])) . ' - ' . date('Y-m-d H:i', strtotime($datetimerange[1]));
 		$s[$key]['duration'] = $duration;
 	}
+*/
+
+	$s[0]['pid'] = 1;
+	$s[0]['filepath'] = $request->input('$filepath');
+	$s[0]['filename'] = $request->input('$filename');;
+
 
 	// $application = json_encode(
 	// 	$s, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
@@ -1117,7 +1125,7 @@ class ApplicantController extends Controller
 			'status' => 1,
 			'reason' => $reason,
 			'remark' => $remark,
-			'camera_imgurl' => $camera_imgurl,
+			// 'camera_imgurl' => $camera_imgurl,
 		]);
 
 		$result = 1;
@@ -2247,6 +2255,8 @@ class ApplicantController extends Controller
 
 		// 接收文件
 		$fileCharater = $request->file('myfile');
+		$reason = $request->input('reason');
+		$remark = $request->input('remark');
  
 		if ($fileCharater->isValid()) { //括号里面的是必须加的哦
 			//如果括号里面的不加上的话，下面的方法也无法调用的
@@ -2271,7 +2281,7 @@ class ApplicantController extends Controller
 
 			//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
 			// $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
-			$fileCharater->storeAs($filepath, $filename);
+			//$fileCharater->storeAs($filepath, $filename);
 			// dd($filename);
 			// Storage::delete('excel/'.$filename);
 
@@ -2280,12 +2290,16 @@ class ApplicantController extends Controller
 		}
 
 
-
-		$reason = $request->input('reason');
-		$remark = $request->input('remark');
 	
 		$uuid4 = Uuid::uuid4();
 		$uuid = $uuid4->toString();
+
+		//return $uuid;
+
+
+
+
+
 
 		// 用户信息：$user['id']、$user['name'] 等
 		$me = response()->json(auth()->user());
@@ -2315,6 +2329,7 @@ class ApplicantController extends Controller
 
 
 		
+/* 
 		// 查找批量applicant信息
 		$res1 = User::select('applicant_group')
 			->where('id', $id_of_agent)
@@ -2345,16 +2360,21 @@ class ApplicantController extends Controller
 			$s[$key]['uid'] = $value['uid'];
 			$s[$key]['applicant'] = $value['applicant'];
 			$s[$key]['department'] = $value['department'];
-			// $s[$key]['category'] = $category;
-			// $s[$key]['datetimerange'] = date('Y-m-d H:i', strtotime($datetimerange[0])) . ' - ' . date('Y-m-d H:i', strtotime($datetimerange[1]));
-			// $s[$key]['duration'] = $duration;
+			$s[$key]['category'] = $category;
+			$s[$key]['datetimerange'] = date('Y-m-d H:i', strtotime($datetimerange[0])) . ' - ' . date('Y-m-d H:i', strtotime($datetimerange[1]));
+			$s[$key]['duration'] = $duration;
 		}
-	
+ */
+
+		$s[0]['pid'] = 1;
+		$s[0]['filepath'] = $filepath;
+		$s[0]['filename'] = $filename;
+
 		// $application = json_encode(
 		// 	$s, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
 		// );
 		$application = $s;
-	dd($s);
+
 		// 写入数据库
 		try	{
 			DB::beginTransaction();
@@ -2382,7 +2402,7 @@ class ApplicantController extends Controller
 			$result = 1;
 		}
 		catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
+			 echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
 			// return 'Message: ' .$e->getMessage();
 			return 0;
