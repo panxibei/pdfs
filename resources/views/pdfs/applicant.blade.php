@@ -1882,7 +1882,12 @@ var vm_app = new Vue({
 			_this.uploadList.push(file); // 收集文件数量
 
 			for(var i=0;i<_this.uploadList.length;i++){
-				console.log(_this.uploadList[i]);
+				if (_this.uploadList.length>2) {
+					_this.uploadList.splice(_this.uploadList.length-1, 1);
+					_this.error(false, '失败', '不能超过2个文件！');
+					return false;
+				}
+
 				if (_this.uploadList[i]['type'] == 'application/pdf') {
 				} else {
 					_this.uploadList.splice(i, 1);
