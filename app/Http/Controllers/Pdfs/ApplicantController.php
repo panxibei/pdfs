@@ -107,7 +107,7 @@ class ApplicantController extends Controller
 	$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
 
 	// 获取todo信息
-	$info_todo = Renshi_jiaban::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
+	$info_todo = Pdfs_applicant::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
 		->where('uid_of_auditor', $user['uid'])
 		->whereBetween('status', [1, 98])
 		->where('archived', false)
@@ -139,7 +139,7 @@ class ApplicantController extends Controller
 	$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
 
 	// 获取todo信息
-	$info_todo = Renshi_jiaban::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
+	$info_todo = Pdfs_applicant::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
 		->where('uid_of_auditor', $user['uid'])
 		->whereBetween('status', [1, 98])
 		->where('archived', false)
@@ -153,7 +153,7 @@ class ApplicantController extends Controller
 
 
 	/**
-	 * jiaban applicant列表
+	 * gets applicant 查询列表
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
@@ -193,7 +193,7 @@ class ApplicantController extends Controller
 	if (Cache::has($fullUrl)) {
 		$result = Cache::get($fullUrl);    //直接读取cache
 	} else {                                   //如果cache里面没有
-		$result = Renshi_jiaban::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'index_of_auditor', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'camera_imgurl', 'created_at', 'updated_at', 'deleted_at')
+		$result = Pdfs_applicant::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'index_of_auditor', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'camera_imgurl', 'created_at', 'updated_at', 'deleted_at')
 			->when($queryfilter_auditor, function ($query) use ($queryfilter_auditor) {
 				return $query->where('auditor', 'like', '%'.$queryfilter_auditor.'%');
 			})
@@ -261,7 +261,7 @@ class ApplicantController extends Controller
 	if (Cache::has($fullUrl)) {
 		$result = Cache::get($fullUrl);    //直接读取cache
 	} else {                                   //如果cache里面没有
-		$result = Renshi_jiaban::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'index_of_auditor', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'camera_imgurl', 'created_at', 'updated_at', 'deleted_at')
+		$result = Pdfs_applicant::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'index_of_auditor', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'camera_imgurl', 'created_at', 'updated_at', 'deleted_at')
 			->when($queryfilter_applicant, function ($query) use ($queryfilter_applicant) {
 				return $query->where('agent', 'like', '%'.$queryfilter_applicant.'%');
 			})
@@ -328,7 +328,7 @@ class ApplicantController extends Controller
 	if (Cache::has($fullUrl)) {
 		$result = Cache::get($fullUrl);    //直接读取cache
 	} else {                                   //如果cache里面没有
-		$result = Renshi_jiaban::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'index_of_auditor', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'camera_imgurl', 'created_at', 'updated_at', 'deleted_at')
+		$result = Pdfs_applicant::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'index_of_auditor', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'progress', 'status', 'reason', 'remark', 'auditing', 'archived', 'camera_imgurl', 'created_at', 'updated_at', 'deleted_at')
 			->when($queryfilter_auditor, function ($query) use ($queryfilter_auditor) {
 				return $query->where('auditor', 'like', '%'.$queryfilter_auditor.'%');
 			})
@@ -1108,7 +1108,7 @@ class ApplicantController extends Controller
 	try	{
 		DB::beginTransaction();
 		
-		Renshi_jiaban::create([
+		Pdfs_applicant::create([
 			'uuid' => $uuid,
 			'id_of_agent' => $id_of_agent,
 			'uid_of_agent' => $uid_of_agent,
@@ -1282,7 +1282,7 @@ class ApplicantController extends Controller
 		// }
 		// Bpjg_zhongricheng_relation::insert($s);
 
-		Renshi_jiaban::create([
+		Pdfs_applicant::create([
 			'uuid' => $uuid,
 			'id_of_agent' => $id_of_agent,
 			'uid_of_agent' => $uid_of_agent,
@@ -1390,7 +1390,7 @@ class ApplicantController extends Controller
 
 	$id = $request->input('id');
 
-	$result = Renshi_jiaban::whereIn('id', $id)->delete();
+	$result = Pdfs_applicant::whereIn('id', $id)->delete();
 	Cache::flush();
 	return $result;
 	}
@@ -1408,7 +1408,7 @@ class ApplicantController extends Controller
 
 	$id = $request->input('id');
 
-	$result = Renshi_jiaban::where('id', $id)->forceDelete();
+	$result = Pdfs_applicant::where('id', $id)->forceDelete();
 	Cache::flush();
 	return $result;
 	}
@@ -1426,13 +1426,13 @@ class ApplicantController extends Controller
 
 	$id = $request->input('id');
 
-	// $trashed = Renshi_jiaban::select('deleted_at')
+	// $trashed = Pdfs_applicant::select('deleted_at')
 	// 	->whereIn('id', $id)
 	// 	->first();
 
 	// 如果在回收站里，则恢复它
 	// if ($trashed == null) {
-		$result = Renshi_jiaban::where('id', $id)->restore();
+		$result = Pdfs_applicant::where('id', $id)->restore();
 	// }
 	Cache::flush();
 	return $result;
@@ -1451,7 +1451,7 @@ class ApplicantController extends Controller
 
 	$jiaban_id = $request->input('jiaban_id');
 
-	$flag = Renshi_jiaban::select('archived')
+	$flag = Pdfs_applicant::select('archived')
 		->where('id', $jiaban_id)
 		->first();
 
@@ -1466,7 +1466,7 @@ class ApplicantController extends Controller
 		// }
 		// Bpjg_zhongricheng_relation::insert($s);
 
-		$result = Renshi_jiaban::where('id', $jiaban_id)
+		$result = Pdfs_applicant::where('id', $jiaban_id)
 			->update([
 				'archived' => ! $flag['archived'],
 			]);
@@ -1510,7 +1510,7 @@ class ApplicantController extends Controller
 	$auditor = $user['displayname'];
 	$department_of_auditor = $user['department'];
 
-	$auditing_before = Renshi_jiaban::select('uuid', 'id_of_agent', 'agent', 'uid_of_agent', 'department_of_agent', 'status', 'auditing', 'index_of_auditor', 'application', 'reason', 'remark', 'camera_imgurl')
+	$auditing_before = Pdfs_applicant::select('uuid', 'id_of_agent', 'agent', 'uid_of_agent', 'department_of_agent', 'status', 'auditing', 'index_of_auditor', 'application', 'reason', 'remark', 'camera_imgurl')
 		->where('id', $jiaban_id)
 		->first();
 
@@ -1609,8 +1609,8 @@ class ApplicantController extends Controller
 				'camera_imgurl' => $camera_imgurl,
 			]);
 	
-			$result = Renshi_jiaban::where('id', $jiaban_id)->forceDelete();
-			// $result = Renshi_jiaban::where('id', $jiaban_id)
+			$result = Pdfs_applicant::where('id', $jiaban_id)->forceDelete();
+			// $result = Pdfs_applicant::where('id', $jiaban_id)
 			// 	->update([
 			// 		'index_of_auditor' => $index_of_auditor + 1,
 			// 		'id_of_auditor' => $id_of_auditor,
@@ -1651,7 +1651,7 @@ class ApplicantController extends Controller
 			// }
 			// Bpjg_zhongricheng_relation::insert($s);
 	
-			$result = Renshi_jiaban::where('id', $jiaban_id)
+			$result = Pdfs_applicant::where('id', $jiaban_id)
 				->update([
 					'index_of_auditor' => $index_of_auditor + 1,
 					'id_of_auditor' => $id_of_auditor,
@@ -1764,7 +1764,7 @@ class ApplicantController extends Controller
 	$auditor = $user['displayname'];
 	$department_of_auditor = $user['department'];
 
-	$auditing_before = Renshi_jiaban::select('uuid', 'status', 'auditing', 'index_of_auditor')
+	$auditing_before = Pdfs_applicant::select('uuid', 'status', 'auditing', 'index_of_auditor')
 		->where('id', $jiaban_id)
 		->first();
 
@@ -1851,7 +1851,7 @@ class ApplicantController extends Controller
 		// }
 		// Bpjg_zhongricheng_relation::insert($s);
 
-		$result = Renshi_jiaban::where('id', $jiaban_id)
+		$result = Pdfs_applicant::where('id', $jiaban_id)
 			->update([
 				'id_of_auditor' => $id_of_auditor,
 				'uid_of_auditor' => $uid_of_auditor,
@@ -1924,7 +1924,7 @@ class ApplicantController extends Controller
 
 	$id = $request->input('id');
 
-	$result = Renshi_jiaban::whereIn('id', $id)->delete();
+	$result = Pdfs_applicant::whereIn('id', $id)->delete();
 	Cache::flush();
 	return $result;
 	}
@@ -1942,7 +1942,7 @@ class ApplicantController extends Controller
 
 	$id = $request->input('id');
 
-	$result = Renshi_jiaban::where('id', $id)->forceDelete();
+	$result = Pdfs_applicant::where('id', $id)->forceDelete();
 	Cache::flush();
 	return $result;
 	}
@@ -1961,7 +1961,7 @@ class ApplicantController extends Controller
 	$id = $request->input('id');
 
 	// 如果在回收站里，则恢复它
-	$result = Renshi_jiaban::where('id', $id)->restore();
+	$result = Pdfs_applicant::where('id', $id)->restore();
 	Cache::flush();
 	return $result;
 	}
@@ -1981,7 +1981,7 @@ class ApplicantController extends Controller
 
 	$id = $request->input('id');
 
-	$result = Renshi_jiaban::whereIn('id', $id)->delete();
+	$result = Pdfs_applicant::whereIn('id', $id)->delete();
 	Cache::flush();
 	return $result;
 	}
@@ -1999,7 +1999,7 @@ class ApplicantController extends Controller
 
 	$id = $request->input('id');
 
-	$result = Renshi_jiaban::where('id', $id)->forceDelete();
+	$result = Pdfs_applicant::where('id', $id)->forceDelete();
 	Cache::flush();
 	return $result;
 	}
@@ -2017,7 +2017,7 @@ class ApplicantController extends Controller
 	$id = $request->input('id');
 
 	// 如果在回收站里，则恢复它
-	$result = Renshi_jiaban::where('id', $id)->restore();
+	$result = Pdfs_applicant::where('id', $id)->restore();
 	Cache::flush();
 	return $result;
 	}
@@ -2073,8 +2073,8 @@ class ApplicantController extends Controller
 	// $queryfilter_created_at = [date('Y-m-d H:i:s', strtotime($queryfilter_datefrom)), date('Y-m-d H:i:s', strtotime($queryfilter_dateto))];
 	$queryfilter_created_at = [$queryfilter_datefrom, $queryfilter_dateto];
 // dd($queryfilter_created_at);
-	// $jiaban_applicant = Renshi_jiaban::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
-	$jiaban_applicant = Renshi_jiaban::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
+	// $jiaban_applicant = Pdfs_applicant::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
+	$jiaban_applicant = Pdfs_applicant::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
 		// ->when($queryfilter_created_at, function ($query) use ($queryfilter_created_at) {
 		// 	return $query->whereBetween('created_at', $queryfilter_created_at);
 		// })
@@ -2163,8 +2163,8 @@ class ApplicantController extends Controller
 	// $queryfilter_created_at = [date('Y-m-d H:i:s', strtotime($queryfilter_datefrom)), date('Y-m-d H:i:s', strtotime($queryfilter_dateto))];
 	$queryfilter_created_at = [$queryfilter_datefrom, $queryfilter_dateto];
 // dd($queryfilter_created_at);
-	// $jiaban_applicant = Renshi_jiaban::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
-	$jiaban_applicant = Renshi_jiaban::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
+	// $jiaban_applicant = Pdfs_applicant::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
+	$jiaban_applicant = Pdfs_applicant::select('id', 'uuid', 'id_of_agent', 'uid_of_agent', 'agent', 'department_of_agent', 'id_of_auditor', 'uid_of_auditor', 'auditor', 'department_of_auditor', 'application', 'status', 'reason', 'remark', 'auditing', 'archived', 'created_at', 'updated_at', 'deleted_at')
 		// ->when($queryfilter_created_at, function ($query) use ($queryfilter_created_at) {
 		// 	return $query->whereBetween('created_at', $queryfilter_created_at);
 		// })

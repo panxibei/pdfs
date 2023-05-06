@@ -30,15 +30,15 @@ Pdfs(Applicant) -
 					<i-row :gutter="16">
 						<i-col span="5">
 							当前审核人&nbsp;&nbsp;
-							<i-input v-model.lazy="queryfilter_auditor" @on-change="jiabangetsapplicant(page_current, page_last)" size="small" clearable style="width: 100px"></i-input>
+							<i-input v-model.lazy="queryfilter_auditor" @on-change="getsapplicant(page_current, page_last)" size="small" clearable style="width: 100px"></i-input>
 						</i-col>
 						<i-col span="8">
 							提交时间&nbsp;
-							<Date-picker v-model.lazy="queryfilter_created_at" @on-change="jiabangetsapplicant(page_current, page_last)" type="datetimerange" format="yyyy-MM-dd HH:mm" size="small" placeholder="" style="width:250px"></Date-picker>
+							<Date-picker v-model.lazy="queryfilter_created_at" @on-change="getsapplicant(page_current, page_last)" type="datetimerange" format="yyyy-MM-dd HH:mm" size="small" placeholder="" style="width:250px"></Date-picker>
 						</i-col>
 						<i-col span="2">
 							@hasanyrole('role_super_admin')
-								<Checkbox v-model="queryfilter_trashed" @on-change="jiabangetsapplicant(page_current, page_last)">已删除</Checkbox>
+								<Checkbox v-model="queryfilter_trashed" @on-change="getsapplicant(page_current, page_last)">已删除</Checkbox>
 							@else
 								&nbsp;
 							@endhasanyrole
@@ -982,7 +982,7 @@ var vm_app = new Vue({
 
 		// 切换当前页
 		oncurrentpagechange: function (currentpage) {
-			this.jiabangetsapplicant(currentpage, this.page_last);
+			this.getsapplicant(currentpage, this.page_last);
 		},
 
 		// 切换页记录数
@@ -1007,7 +1007,7 @@ var vm_app = new Vue({
 				
 				if (response.data) {
 					_this.page_size = pagesize;
-					_this.jiabangetsapplicant(1, _this.page_last);
+					_this.getsapplicant(1, _this.page_last);
 				} else {
 					_this.warning(false, 'Warning', 'failed!');
 				}
@@ -1017,7 +1017,7 @@ var vm_app = new Vue({
 			})
 		},		
 		
-		jiabangetsapplicant: function(page, last_page){
+		getsapplicant: function(page, last_page){
 			var _this = this;
 			
 			if (page > last_page) {
@@ -1135,7 +1135,7 @@ var vm_app = new Vue({
 				
 				if (response.data) {
 					_this.onclear_applicant1();
-					_this.jiabangetsapplicant(_this.page_current, _this.page_last);
+					_this.getsapplicant(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '提交成功！');
 				} else {
 					_this.error(false, '失败', '提交失败！');
@@ -1222,7 +1222,7 @@ var vm_app = new Vue({
 				
 				if (response.data) {
 					_this.onclear_applicant2();
-					_this.jiabangetsapplicant(_this.page_current, _this.page_last);
+					_this.getsapplicant(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '提交成功！');
 				} else {
 					_this.error(false, '失败', '提交失败！');
@@ -1378,7 +1378,7 @@ var vm_app = new Vue({
 				
 				if (response.data) {
 					_this.modal_jiaban_edit = false;
-					_this.jiabangetsapplicant(_this.page_current, _this.page_last);
+					_this.getsapplicant(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '归档成功！');
 				} else {
 					_this.error(false, '失败', '归档失败！');
@@ -1413,7 +1413,7 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.jiabangetsapplicant(_this.page_current, _this.page_last);
+					_this.getsapplicant(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '恢复成功！');
 				} else {
 					_this.error(false, '失败', '恢复失败！');
@@ -1448,7 +1448,7 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.jiabangetsapplicant(_this.page_current, _this.page_last);
+					_this.getsapplicant(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '删除成功！');
 				} else {
 					_this.error(false, '失败', '删除失败！');
@@ -1482,7 +1482,7 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.jiabangetsapplicant(_this.page_current, _this.page_last);
+					_this.getsapplicant(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '彻底删除成功！');
 				} else {
 					_this.error(false, '失败', '彻底删除失败！');
@@ -2005,7 +2005,7 @@ var vm_app = new Vue({
 		_this.current_nav = 'XX管理';
 		_this.current_subnav = '申请';
 		// 显示所有
-		// _this.jiabangetsapplicant(1, 1); // page: 1, last_page: 1
+		_this.getsapplicant(1, 1); // page: 1, last_page: 1
 		// _this.loadapplicantgroup();
 
 		GetCurrentDatetime('getcurrentdatetime');

@@ -53,7 +53,7 @@ Route::group(['prefix'=>'pdfs', 'namespace'=>'Pdfs', 'middleware'=>['jwtauth']],
     Route::get('applicant', [ApplicantController::class, 'applicant'])->name('pdfs.applicant');
 
     // jiaban gets列表
-    Route::get('jiabanGetsApplicant', [ApplicantController::class, 'getsApplicant'])->name('pdfs.getsapplicant');
+    Route::get('getsApplicant', [ApplicantController::class, 'getsApplicant'])->name('pdfs.getsapplicant');
 
     // applicant页面 查询employee_uid
     Route::get('uidList', [ApplicantController::class, 'uidList'])->name('renshi.jiaban.applicant.uidlist');
