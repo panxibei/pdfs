@@ -425,7 +425,7 @@ Pdfs(Applicant) -
 				:show-upload-list="false"
 				:format="['pdf']"
 				:on-format-error="handleFormatError"
-				:max-size="2048"
+				:max-size="10240"
 				multiple
 				type="drag"
 				action="/">
@@ -1882,8 +1882,9 @@ var vm_app = new Vue({
 			_this.uploadList.push(file); // 收集文件数量
 
 			for(var i=0;i<_this.uploadList.length;i++){
-				//console.log(_this.uploadList[i]);
-				if (_this.uploadList[i]['type'] != 'application/pdf') {
+				console.log(_this.uploadList[i]);
+				if (_this.uploadList[i]['type'] == 'application/pdf') {
+				} else {
 					_this.uploadList.splice(i, 1);
 					_this.error(false, '失败', '文档格式不正确！');
 					return false;
@@ -1896,6 +1897,8 @@ var vm_app = new Vue({
 		},
 		uploadstart () {
 			var _this = this;
+
+			_this.permitsubmit();
 
 			_this.uploaddisabled = true;
 			_this.loadingStatus = true;
@@ -1933,10 +1936,10 @@ var vm_app = new Vue({
 					 _this.success(false, '成功', '导入成功！');
 				} else {
 					_this.error(false, '失败', '导入失败！');
-					return false;
 				}
 				
 				setTimeout( function () {
+					_this.submitdisabled = true;
 					_this.file = null;
 					_this.loadingStatus = false;
 					_this.uploaddisabled = false;
@@ -1979,9 +1982,11 @@ var vm_app = new Vue({
 			var _this = this;
 			if (_this.pdfs_add_reason == '' || _this.pdfs_add_reason == undefined || _this.uploadList == false ) {
 				_this.submitdisabled = true;
+				return false;
 			} else {
 				_this.submitdisabled = false;
 			}
+			
 		},
 
 		

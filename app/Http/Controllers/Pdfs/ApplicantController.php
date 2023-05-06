@@ -2244,7 +2244,7 @@ class ApplicantController extends Controller
 
 
 	/**
-	 * applicantImport
+	 * applicantImport OK
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
@@ -2262,16 +2262,19 @@ class ApplicantController extends Controller
 			array_push($fileCharater, $request->file('file'.$i));
 		}
 
-
 		// $fileCharater = $request->file('myfile');
  
 		for ($i=0; $i<$filenum; $i++) {
 			if ($fileCharater[$i]->isValid()) { //括号里面的是必须加的哦
 				//如果括号里面的不加上的话，下面的方法也无法调用的
+				
+				//dd(get_class_methods($fileCharater[0]));
+
+				// 获取文件原始文件名（带扩展名）
+				$clientoriginalname[$i] = $fileCharater[0]->getClientOriginalName();
 
 				//获取文件的扩展名 
 				$ext = $fileCharater[$i]->extension();
-				// dd($ext);
 				// if ($ext != 'xls' && $ext != 'xlsx') {
 				if ($ext != 'pdf') {
 					return 0;
@@ -2279,19 +2282,17 @@ class ApplicantController extends Controller
 
 				//获取文件的绝对路径
 				// $path = $fileCharater->path();
-				// dd($path);
 
 				//定义文件名
 				// $filename = date('Y-m-d-h-i-s').'.'.$ext;
 				// pdf 2023 04 05 01 02 03 00.pdf
 				$filename[$i] = 'pdf' . date('YmdHis') . str_pad($i, 2, "0", STR_PAD_LEFT) . '.' .$ext;
-				// dd($filename);
 				$filepath[$i] = 'file/'.date('Ymd');
 
 				//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
 				// $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
 				$fileCharater[$i]->storeAs($filepath[$i], $filename[$i]);
-				// dd($filename);
+
 				// Storage::delete('excel/'.$filename);
 
 			} else {
@@ -2301,16 +2302,9 @@ class ApplicantController extends Controller
 
 		$reason = $request->input('reason');
 		$remark = $request->input('remark');
-
 	
 		$uuid4 = Uuid::uuid4();
 		$uuid = $uuid4->toString();
-
-		//return $uuid;
-
-
-
-
 
 
 		// 用户信息：$user['id']、$user['name'] 等
@@ -2337,8 +2331,6 @@ class ApplicantController extends Controller
 	
 		// get progress
 		$progress = intval(1 / (count($b) + 1) * 100);
-
-
 
 		
 /* 
@@ -2379,9 +2371,10 @@ class ApplicantController extends Controller
  */
 
 		for ($i=0; $i<$filenum; $i++) {
-			$s[$i]['pid'] = $i;
+			$s[$i]['fid'] = $i;
 			$s[$i]['filepath'] = $filepath[$i];
 			$s[$i]['filename'] = $filename[$i];
+			$s[$i]['clientoriginalname'] = $clientoriginalname[$i];
 		}
 
 		// $application = json_encode(
@@ -2416,8 +2409,13 @@ class ApplicantController extends Controller
 			$result = 1;
 		}
 		catch (\Exception $e) {
-			 echo 'Message: ' .$e->getMessage();
+			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
+
+			for ($i=0; $i<$filenum; $i++) {
+				Storage::delete($filepath[$i].'/'.$filename[$i]);
+			}
+
 			// return 'Message: ' .$e->getMessage();
 			return 0;
 		}
