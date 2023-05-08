@@ -36,7 +36,7 @@ return new class extends Migration
             $table->integer('progress')->comment('申请进度');
             $table->integer('status')->comment('申请状态');
             $table->text('reason')->comment('事由');
-            $table->text('fileurl')->nullable()->comment('文件URI');
+            $table->text('camera_imgurl')->nullable()->comment('摄像图片URI');
             $table->text('remark')->nullable()->comment('备注');
             // $table->integer('progress_confirm')->comment('确认进度');
             // $table->integer('status_confirm')->comment('确认状态');
