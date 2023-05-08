@@ -418,7 +418,7 @@ Pdfs(Applicant) -
 		<i-col span="1">
 			&nbsp;
 		</i-col>
-		<i-col span="3">
+		<i-col span="4">
 			<Upload
 				ref="upload"
 				:before-upload="beforeupload"
@@ -449,7 +449,7 @@ Pdfs(Applicant) -
 			<i-button type="primary" icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="submitdisabled" size="large" @click="uploadstart">提交</i-button>
 		</i-col>
 
-		<i-col span="3">
+		<i-col span="2">
 			&nbsp;&nbsp;
 		</i-col>
 	</i-row>
@@ -1863,10 +1863,6 @@ var vm_app = new Vue({
 				desc: 'File  ' + file.name + ' is too large, no more than <strong>2M</strong>.'
 			});
 		},
-		handleUpload (file) {
-			this.file = file;
-			return false;
-		},
 		beforeupload (file) {
 			var _this = this;
 			if (_this.pdfs_add_reason == '' || _this.pdfs_add_reason == undefined) {
@@ -1882,9 +1878,9 @@ var vm_app = new Vue({
 			_this.uploadList.push(file); // 收集文件数量
 
 			for(var i=0;i<_this.uploadList.length;i++){
-				if (_this.uploadList.length>2) {
+				if (_this.uploadList.length>3) {
 					_this.uploadList.splice(_this.uploadList.length-1, 1);
-					_this.error(false, '失败', '不能超过2个文件！');
+					_this.error(false, '失败', '不能超过3个文件！');
 					return false;
 				}
 
@@ -1945,7 +1941,7 @@ var vm_app = new Vue({
 				
 				setTimeout( function () {
 					_this.submitdisabled = true;
-					_this.file = null;
+					// _this.file = null;
 					_this.loadingStatus = false;
 					_this.uploaddisabled = false;
 					_this.uploadList = [];
@@ -1958,7 +1954,7 @@ var vm_app = new Vue({
 			.catch(function (error) {
 				_this.error(false, 'Error', error);
 				setTimeout( function () {
-					_this.file = null;
+					// _this.file = null;
 					_this.loadingStatus = false;
 					_this.uploaddisabled = false;
 				}, 1000);
