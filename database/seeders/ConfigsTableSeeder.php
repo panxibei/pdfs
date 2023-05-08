@@ -243,6 +243,16 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => $nowtime,
                 'deleted_at' => NULL,
             ),
+            24 => 
+            array (
+                'cfg_id' => 25,
+                'cfg_name' => 'UPLOAD_MULTIPLE_ENABLED',
+                'cfg_value' => '0',
+				'cfg_description' => '是否开启多文件上传，1为开启，0为关闭',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+                'deleted_at' => NULL,
+            ),
         ));
     }
 }

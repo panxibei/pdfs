@@ -426,7 +426,7 @@ Pdfs(Applicant) -
 				:format="['pdf']"
 				:on-format-error="handleFormatError"
 				:max-size="10240"
-				multiple
+				:multiple="uploadMultiple"
 				type="drag"
 				action="/">
 				<!-- <i-button type="primary" icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '上传并提交' }}</i-button> -->
@@ -558,6 +558,7 @@ var vm_app = new Vue({
 		loadingStatus: false,
 		uploaddisabled: false,
 		submitdisabled: true,
+		uploadMultiple: {{ $config['UPLOAD_MULTIPLE_ENABLED'] == 0 ? 'false' : 'true' }},
 
 
 		tablecolumns: [
