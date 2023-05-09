@@ -417,4 +417,12 @@ dd($pdf);
 	}
 
 
+    // vuetify测试
+	public function vuetify() {
+
+		return view('test.vuetify');
+		
+	}
+
+
 }
