@@ -2271,7 +2271,7 @@ class ApplicantController extends Controller
 				//dd(get_class_methods($fileCharater[0]));
 
 				// 获取文件原始文件名（带扩展名）
-				$clientoriginalname[$i] = $fileCharater[0]->getClientOriginalName();
+				$clientoriginalname[$i] = $fileCharater[$i]->getClientOriginalName();
 
 				//获取文件的扩展名 
 				$ext = $fileCharater[$i]->extension();
