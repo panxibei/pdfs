@@ -17,76 +17,107 @@
 <body>
 <div id="app">
     <v-app>
-      <v-main>
-        <v-container>Hello world</v-container>
-		
-		<br>
-		
-		<v-row align="center" justify="space-around">
-			<v-alert type="success">这里是消息</v-alert>
-		</v-row>
-		
-		<br>
-		
-		<v-row align="center" justify="space-around">
-			<v-btn depressed @click="m('i love you')">Normal中文</v-btn>
-			<v-btn depressed color="primary">Primary</v-btn>
-			<v-btn depressed color="error">Error</v-btn>
-			<v-btn depressed disabled>Disabled</v-btn>
-		</v-row>
-		<br>
-		
-		<template>
-		  <div>
-			<v-data-table :headers="headers" :items="desserts">
-			
-			  <template v-slot:item.name="props">
-				<v-edit-dialog :return-value.sync="props.item.name" @save="save" @cancel="cancel" @open="open" @close="close">
-				  @{{ props.item.name }}
-				  <template v-slot:input>
-					<v-text-field v-model="props.item.name" :rules="[max25chars]" label="Edit" single-line counter></v-text-field>
-				  </template>
-				</v-edit-dialog>
-			  </template>
-			  
-			  
-			  <template v-slot:item.fat="props">
-				<v-edit-dialog :return-value.sync="props.item.fat" @save="save" @cancel="cancel" @open="open" @close="close">
-				  @{{ props.item.fat }}
-				  <template v-slot:input>
-					<v-text-field v-model="props.item.fat" :rules="[max25chars]" label="Edit" single-line counter></v-text-field>
-				  </template>
-				</v-edit-dialog>
-			  </template>
-			  
-			  
-			  
-			  <template v-slot:item.iron="props">
-				<v-edit-dialog :return-value.sync="props.item.iron" large persistent @save="save" @cancel="cancel" @open="open" @close="close">
-				  <div>@{{ props.item.iron }}</div>
-				  <template v-slot:input>
-					<div class="mt-4 text-h6">
-					  Update Iron
-					</div>
-					<v-text-field v-model="props.item.iron" :rules="[max25chars]" label="Edit" single-line counter autofocus></v-text-field>
-				  </template>
-				</v-edit-dialog>
-			  </template>
-			</v-data-table>
 
-			<v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
-			  @{{ snackText }}
+		<v-navigation-drawer v-model="drawer" app>
+			<!-- -->
+		</v-navigation-drawer>
 
-			  <template v-slot:action="{ attrs }">
-				<v-btn v-bind="attrs" text @click="snack = false">
-				  Close
-				</v-btn>
-			  </template>
-			</v-snackbar>
-		  </div>
-		</template>
+		<v-app-bar app>
+			<v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+			<v-toolbar-title>面包屑在此 / XX / YYY</v-toolbar-title>
+		</v-app-bar>
+
+
+		<v-main>
+			<v-container fluid>
+				<br>
+
+				<v-row align="center" justify="space-around">
+					<v-alert border="top" color="red lighten-2" dark>
+						I'm an alert with a top border and red color
+					</v-alert>
+					<v-alert border="left" color="indigo" dark>
+						I'm an alert with a border left type info
+					</v-alert>
+				</v-row>
+
+				<br>
+
+				<v-row align="center" justify="space-around">
+					<v-alert type="success">这里是消息</v-alert>
+				</v-row>
+				
+				<br>
+				
+				<v-row align="center" justify="space-around">
+					<v-btn depressed @click="m('i love you')">Normal中文</v-btn>
+					<v-btn depressed color="primary">Primary</v-btn>
+					<v-btn depressed color="error">Error</v-btn>
+					<v-btn depressed disabled>Disabled</v-btn>
+				</v-row>
+				<br>
+				
+				<template>
+				<div>
+					<v-data-table :headers="headers" :items="desserts">
+					
+					<template v-slot:item.name="props">
+						<v-edit-dialog :return-value.sync="props.item.name" @save="save" @cancel="cancel" @open="open" @close="close">
+						@{{ props.item.name }}
+						<template v-slot:input>
+							<v-text-field v-model="props.item.name" :rules="[max25chars]" label="Edit" single-line counter></v-text-field>
+						</template>
+						</v-edit-dialog>
+					</template>
+					
+					
+					<template v-slot:item.fat="props">
+						<v-edit-dialog :return-value.sync="props.item.fat" @save="save" @cancel="cancel" @open="open" @close="close">
+						@{{ props.item.fat }}
+						<template v-slot:input>
+							<v-text-field v-model="props.item.fat" :rules="[max25chars]" label="Edit" single-line counter></v-text-field>
+						</template>
+						</v-edit-dialog>
+					</template>
+					
+					
+					
+					<template v-slot:item.iron="props">
+						<v-edit-dialog :return-value.sync="props.item.iron" large persistent @save="save" @cancel="cancel" @open="open" @close="close">
+						<div>@{{ props.item.iron }}</div>
+						<template v-slot:input>
+							<div class="mt-4 text-h6">
+							Update Iron
+							</div>
+							<v-text-field v-model="props.item.iron" :rules="[max25chars]" label="Edit" single-line counter autofocus></v-text-field>
+						</template>
+						</v-edit-dialog>
+					</template>
+					</v-data-table>
+
+					<v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
+					@{{ snackText }}
+
+					<template v-slot:action="{ attrs }">
+						<v-btn v-bind="attrs" text @click="snack = false">
+						Close
+						</v-btn>
+					</template>
+					</v-snackbar>
+				</div>
+				</template>
+
+			</v-container>
+		</v-main>
 		
-      </v-main>
+
+		<v-footer app>
+			<!-- -->
+		</v-footer>
+		
+
+		
     </v-app>
   </div>
 </body>
@@ -203,6 +234,8 @@ var vm_app = new Vue({
 			},
 		],
 
+		// 导航开关
+		drawer: null,
 
 	},
 	methods: {
@@ -238,7 +271,7 @@ var vm_app = new Vue({
 	mounted: function () {
 		var _this = this;
 			
-		_this.m('hello');
+		// _this.m('hello');
 
 	}
 })
