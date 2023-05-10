@@ -243,11 +243,13 @@ dd($pdf);
 		$mpdf->WriteFixedPosHTML('<div style="color:red;">大家好！</div>', 30, 70, 50, 90, 'auto');
 		$mpdf->WriteFixedPosHTML('<div color="blue">组织部门名称</div>', 30, 80, 50, 90, 'auto');
 		
-		$str = 'Hello倾斜文字';
+		$str = '网管小贾 / sysadm.cc';
 		
 		// TextWithRotationPlus($wx, $wy, $texte, $angle = 45, $fontsize = 96, $alpha = 0.2, $red = 0, $green = 0, $blue = 0)
+		$mpdf->TextWithRotationPlus(30, 50, $str, 60, 12, 1, 255, 0, 0);
 		$mpdf->TextWithRotationPlus(40, 50, $str, 45, 12, 1, 255, 0, 0);
-		$mpdf->TextWithRotationPlus(50, 70, $str, -45, 12, 1, 0, 0, 0);
+		$mpdf->TextWithRotationPlus(50, 50, $str, 30, 12, 1, 255, 0, 0);
+		$mpdf->TextWithRotationPlus(60, 70, $str, -45, 12, 1, 0, 0, 0);
 
 		$mpdf->SetFontSize(14);
 		$mpdf->CircularText(110, 45, 17, 'aaaa环绕文字aaaaaa', 'bottom');
