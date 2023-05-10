@@ -18,7 +18,8 @@ Login -
 @section('my_body')
 @parent
 
-<br><br><br>
+<!-- <br><br><br> -->
+
 
 <i-row :gutter="16">
 	<i-col span="9">
@@ -26,7 +27,7 @@ Login -
 	</i-col>
 	<i-col span="6">
 
-		<Card style="width:350px">
+		<Card>
 			<p slot="title" style="text-align:center">
 				{{$SITE_TITLE}}
 				<small>{{$SITE_VERSION}}</small>
@@ -96,6 +97,7 @@ Login -
 		&nbsp;
 	</i-col>
 </i-row>
+
 
 <br><br><br>
 

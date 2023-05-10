@@ -63,12 +63,15 @@
     text-align: center;
 }
 .screen_middle{
-    position: fixed;
-    top: 0px;
+	position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f7f9;
     left: 0px;
+    top: 0px;
     right: 0px;
     bottom: 0px;
-    margin: auto;
 }
 </style>
 @yield('my_style')
@@ -93,8 +96,8 @@ if (isMobile) {
 </head>
 <body>
 <div id="app" v-cloak>
-<!-- <br><br><br><br> -->
-	<div class="layout screen_middle">
+
+	<div class="screen_middle">
 		<Layout>
 			<Header class="layout-header-center">
 				<!-- 头部 -->
