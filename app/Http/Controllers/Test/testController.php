@@ -230,9 +230,9 @@ dd($pdf);
 
 		// Add First page
 		$mpdf->AddPage();
-		//$pagecount = $mpdf->SetSourceFile(public_path() . '/font/DOCUMENTATION_jubb_trl_plg_j30.pdf');
-		//$tplId = $mpdf->ImportPage($pagecount);
-		//$actualsize = $mpdf->UseTemplate($tplId);
+		$pagecount = $mpdf->SetSourceFile(public_path() . '/font/DOCUMENTATION_jubb_trl_plg_j30.pdf');
+		$tplId = $mpdf->ImportPage($pagecount);
+		$actualsize = $mpdf->UseTemplate($tplId);
 
 
 		//$mpdf->WriteHTML('<h1>Hello world!中文测试</h1>');
