@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e599fe3f70bf48f6c1156cd30c276bfc",
+    "content-hash": "18f6610e39e26cefbcd01b6fb840ea11",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -1241,6 +1241,58 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "hi-folks/statistics",
+            "version": "v0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Hi-Folks/statistics.git",
+                "reference": "bbb6c8a5e4fb6cc47008649cb2dade23db928192"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Hi-Folks/statistics/zipball/bbb6c8a5e4fb6cc47008649cb2dade23db928192",
+                "reference": "bbb6c8a5e4fb6cc47008649cb2dade23db928192",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "pestphp/pest": "^1.20",
+                "phpstan/phpstan": "^1.3",
+                "spatie/ray": "^1.28"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "HiFolks\\Statistics\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roberto B.",
+                    "email": "roberto.butti@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP package that provides functions for calculating mathematical statistics of numeric data.",
+            "homepage": "https://github.com/hi-folks/statistics",
+            "keywords": [
+                "hi-folks",
+                "statistics"
+            ],
+            "support": {
+                "issues": "https://github.com/Hi-Folks/statistics/issues",
+                "source": "https://github.com/Hi-Folks/statistics/tree/v0.2.1"
+            },
+            "time": "2022-02-22T21:12:17+00:00"
         },
         {
             "name": "intervention/image",

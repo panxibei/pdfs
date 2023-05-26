@@ -8,6 +8,7 @@
         "php": "^7.2||^8.0",
         "adldap2/adldap2-laravel": "*",
         "guzzlehttp/guzzle": "^7.2",
+        "hi-folks/statistics": "^0.2.1",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",

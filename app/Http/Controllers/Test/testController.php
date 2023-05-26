@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Cache;
 use setasign\Fpdi\Fpdi;
 use Mpdf\Mpdf;
 
+use HiFolks\Statistics\Stat;
+
 use App\Models\Pdfs\Pdfs_actor;
 
 class testController extends Controller
@@ -423,6 +425,41 @@ dd($pdf);
 	public function vuetify() {
 
 		return view('test.vuetify');
+		
+	}
+
+    // stats测试
+	public function stats() {
+
+		
+		$mean1 = Stat::mean([1, 2, 3, 4, 4]);
+		// 2.8
+		$mean2 = Stat::mean([-1.0, 2.5, 3.25, 5.75]);
+		// 2.625
+		$mean3 = Stat::geometricMean([54, 24, 36], 1);
+		// 36.0
+
+		$res['data'][] = $mean1;
+		$res['data'][] = $mean2;
+		$res['data'][] = $mean3;
+
+		$stdev = Stat::pstdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75]);
+		// 0.986893273527251
+		$res['data'][] = $stdev;
+
+		$stdev = Stat::pstdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75], 4);
+		// 0.9869
+		$res['data'][] = $stdev;
+
+		$stdev = Stat::stdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75]);
+		// 1.0810874155219827
+		$res['data'][] = $stdev;
+
+		$stdev = Stat::stdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75], 4);
+		// 1.0811
+		$res['data'][] = $stdev;
+
+		return view('test.stats', $res);
 		
 	}
 

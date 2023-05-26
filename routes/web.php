@@ -422,6 +422,7 @@ Route::group(['prefix'=>'test', 'namespace'=>'Test', 'middleware'=>[]], function
     Route::get('pgsql', [testController::class, 'pgsql']);
     Route::get('pdf', [testController::class, 'pdf']);
     Route::get('mpdf', [testController::class, 'mpdf']);
+    Route::get('stats', [testController::class, 'stats']);
 
     // 测试camera
     Route::get('camera', [testController::class, 'camera']);
