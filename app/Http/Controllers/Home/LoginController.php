@@ -40,7 +40,7 @@ class LoginController extends Controller
 			// return $isMobile ? redirect()->route('portalcube') : redirect()->route('portal');
 		}
 		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
-		return view('home.login', $config);
+		return view('home.loginv', $config);
 	}
 
 	public function checklogin(Request $request)

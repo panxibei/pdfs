@@ -29,6 +29,10 @@ Route::group(['prefix' => 'login', 'namespace' =>'Home'], function() {
 	Route::post('checklogin', [LoginController::class, 'checklogin'])->name('login.checklogin');
 });
 
+Route::group(['prefix' => 'loginv', 'namespace' =>'Home'], function() {
+	Route::get('/', [LoginController::class, 'index'])->name('loginv');
+});
+
 
 // main模块
 Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth']], function() {
