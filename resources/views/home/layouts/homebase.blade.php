@@ -11,57 +11,11 @@
 {{$SITE_TITLE}}  Ver: {{$SITE_VERSION}}
 @show
 </title>
-<link rel="stylesheet" href="{{ asset('statics/iview/styles/iview.css') }}">
+<link rel="stylesheet" href="{{ asset('statics/vuetify/css/materialdesignicons.min.css') }}">
+<link rel="stylesheet" href="{{ asset('statics/vuetify/css/vuetify.min.css') }}">
+
 <style type="text/css">
-	/* 解决闪烁问题的CSS */
-	[v-cloak] {	display: none; }
-</style>
-<style type="text/css">
-.layout{
-    border: 1px solid #d7dde4;
-    background: #f5f7f9;
-    position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-}
-.layout-header-bar{
-	background: #fff;
-	box-shadow: 0 1px 1px rgba(0,0,0,.1);
-}
-.layout-logo{
-    width: 100px;
-    height: 30px;
-    <!--background: #5b6270;-->
-    border-radius: 3px;
-    float: left;
-    position: relative;
-    top: 15px;
-    left: 20px;
-}
-.layout-breadcrumb{
-	<!-- padding: 10px 15px 0; -->
-    width: 100px;
-    height: 30px;
-    <!--background: #5b6270;-->
-    border-radius: 3px;
-    float: left;
-    position: relative;
-    top: 5px;
-    left: 20px;
-}
-.layout-nav{
-	float: right;
-	position: relative;
-    width: 420px;
-    margin: 0 auto;
-    margin-right: 10px;
-}
-.layout-header-center{
-    text-align: center;
-}
-.layout-footer-center{
-    text-align: center;
-}
+
 .screen_middle{
 	position: absolute;
     display: flex;
@@ -95,7 +49,8 @@ if (isMobile) {
 @yield('my_js')
 </head>
 <body>
-<div id="app" v-cloak>
+<div id="app">
+	<v-app>
 
 	<div class="screen_middle">
 		<Layout>
@@ -128,11 +83,12 @@ if (isMobile) {
 		</Layout>
 	</div>
 	
+	</v-app>
 </div>
-<script src="{{ asset('js/vue.min.js') }}"></script>
 <script src="{{ asset('js/axios.min.js') }}"></script>
 <script src="{{ asset('js/bluebird.min.js') }}"></script>
-<script src="{{ asset('statics/iview/iview.min.js') }}"></script>
+<script src="{{ asset('statics/vuetify/js/vue.min.js') }}"></script>
+<script src="{{ asset('statics/vuetify/js/vuetify.min.js') }}"></script>
 @yield('my_js_others')
 </body>
 </html>

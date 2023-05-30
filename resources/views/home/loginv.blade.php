@@ -18,55 +18,88 @@ Login -
 @section('my_body')
 @parent
 
-
-	<p slot="title" style="text-align:center">
-		{{$SITE_TITLE}}
-		<small>{{$SITE_VERSION}}</small>
-	</p>
-
-<v-form v-model="valid" ref="form" lazy-validation>
-
-          <v-text-field
-            v-model="firstname"
-            :rules="nameRules"
-            :counter="10"
-            label="First name"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="lastname"
-            :rules="nameRules"
-            :counter="10"
-            label="Last name"
-            required
-          ></v-text-field>
+<!-- <br><br><br> -->
 
 
-		  <v-btn
-			:disabled="!valid"
-			color="success"
-			class="mr-4"
-			@click="handleSubmit"
-			>
-			提交
-		</v-btn>
+<i-row :gutter="16">
+	<i-col span="9">
+		&nbsp;
+	</i-col>
+	<i-col span="6">
 
-		<v-btn
-			color="error"
-			class="mr-4"
-			@click="handleReset"
-			>
-			重置
-		</v-btn>
-</v-form>
+		<Card>
+			<p slot="title" style="text-align:center">
+				{{$SITE_TITLE}}
+				<small>{{$SITE_VERSION}}</small>
+			</p>
+
+			<p>
+				<i-form ref="formInline" :model="formInline" :rules="ruleInline" @submit.native.prevent>
+					<Form-item prop="username">
+						<i-input ref="ref_username" prefix="ios-contact-outline" type="text" v-model="formInline.username" @on-enter="handleSubmit('formInline')" placeholder="用户名" size="large">
+							<!-- <Icon type="ios-person-outline" slot="prepend"></Icon> -->
+						</i-input>
+					</Form-item>
+				
+					<Form-item prop="password">
+						<i-input ref="ref_password" prefix="ios-lock-outline" type="password" v-model="formInline.password" @on-enter="handleSubmit('formInline')" placeholder="密码" size="large">
+							<!-- <Icon type="ios-lock-outline" slot="prepend"></Icon> -->
+						</i-input>
+					</Form-item>
+
+					<i-row>
+						<i-col span="16">
+							<Form-item prop="captcha">
+								<i-input ref="ref_captcha" prefix="ios-key-outline" type="text" v-model="formInline.captcha" @on-enter="handleSubmit('formInline')" placeholder="验证码" size="large">
+									<!-- <Icon type="ios-key-outline" slot="prepend"></Icon> -->
+								</i-input>
+							</Form-item>
+						</i-col>
+						<i-col span="8">
+							&nbsp;<img ref="captcha" src="{{captcha_src('flatxz')}}" @click="captchaclick" style="cursor:pointer;vertical-align:top;">
+						</i-col>
+					</i-row>
+					
+					<br><br>
+					
+					<i-row>
+						<i-col span="16">
+							保持登录状态&nbsp;
+							<i-switch ref="ref_rememberme" v-model="formInline.rememberme" size="small">
+								<span slot="open"></span>
+								<span slot="close"></span>
+							</i-switch>
+						</i-col>
+						<i-col span="8">
+						&nbsp;
+						<!--待完成功能
+							<a href="#">Forget?</a>
+						-->
+						</i-col>
+					</i-row>
+					
+					<br><br><br>
+					<Form-item>
+					<i-button :disabled="disabled_login_submit" :loading="loading_submit" type="primary" @click="handleSubmit('formInline')" long size="large">登  录</i-button>
+					<!-- <br>
+					<i-button :disabled="disabled_login_reset" @click="handleReset('formInline')" long size="large">重  置</i-button> -->
+					</Form-item>
+					
+					<div v-html="formInline.loginmessage">@{{ formInline.loginmessage }}</div>
+				
+				</i-form>
+
+			</p>
+		</Card>
+
+	</i-col>
+	<i-col span="9">
+		&nbsp;
+	</i-col>
+</i-row>
 
 
-
-
-
-
-
+<br><br><br>
 
 @endsection
 
@@ -79,19 +112,8 @@ Login -
 @section('my_js_others')
 <script>
 var vm_app = new Vue({
-	el: '#app',
-	vuetify: new Vuetify(),
-	components: {
-			
-	},
-	data: {
-		valid: false,
-		firstname: '',
-		lastname: '',
-		nameRules: [
-			v => !!v || 'Name is required',
-			v => v.length <= 10 || 'Name must be less than 10 characters',
-		],
+    el: '#app',
+    data: {
 		
 		formInline: {
 			username: '',
